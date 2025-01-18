@@ -8,7 +8,6 @@ const SECOND_ROLE_ID = '1237187983950614618';
 const LIVE_ROLE_ID = '1311105195899355158';
 
 setInterval(async () => {
-  console.log('Checking for role assignments...');
 
   // Reload the JSON files each time the check runs
   const dropoutCast = loadJSONFile('dropout-cast.json');
@@ -26,9 +25,9 @@ setInterval(async () => {
     // Additional check for members in dropout-live-members.json
     await assignLiveRole(secondServer, LIVE_ROLE_ID, dropoutLiveMembers);
 
-    console.log('Role assignment check complete.');
+    // console.log('Role assignment check complete.');
   } catch (error) {
-    console.error('Error during periodic role assignment check:', error);
+    // console.error('Error during periodic role assignment check:', error);
   }
 }, 10000);
 
