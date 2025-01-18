@@ -35,7 +35,7 @@ setInterval(async () => {
   // Helper function to load JSON files dynamically
 function loadJSONFile(filePath) {
     try {
-      const data = fs.readFileSync(path.join(__dirname, 'modules/config', filePath), 'utf8');
+      const data = fs.readFileSync(path.join(__dirname, 'config', filePath), 'utf8');
       return JSON.parse(data).members;
     } catch (err) {
       console.error(`Error reading ${filePath}:`, err);
