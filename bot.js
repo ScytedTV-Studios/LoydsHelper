@@ -90,7 +90,7 @@ watcher
                 ],
               });
           } else {
-            console.warn('Client user is not ready yet.');
+            return;
           }
 
     })
@@ -111,7 +111,7 @@ watcher
                     ],
                   });
               } else {
-                console.warn('Client user is not ready yet.');
+                return;
               }
 
         }
@@ -133,7 +133,7 @@ watcher
                     ],
                   });
               } else {
-                console.warn('Client user is not ready yet.');
+                return;
               }
 
         }
