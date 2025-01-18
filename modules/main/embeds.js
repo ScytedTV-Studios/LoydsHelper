@@ -4,7 +4,18 @@ const ownerId = "852572302590607361";
 
 client.on('messageCreate', async (message) => {
     // Check if the message starts with the command and is sent by the owner
-    if (message.content.startsWith('!scytedtv-shows') && message.author.id === ownerId) {
+    if (message.content.startsWith('!embed') && message.author.id === ownerId) {
+      // Delete the message containing the command
+      message.delete();
+  
+      // Send embeds
+      const embed = new EmbedBuilder()
+        .setDescription("Empty embed.")
+        .setColor('#FFEA00');
+  
+      // Send the embeds to the same channel
+      await message.channel.send({ embeds: [embed] });
+    } if (message.content.startsWith('!scytedtv-shows') && message.author.id === ownerId) {
       // Delete the message containing the command
       message.delete();
   
