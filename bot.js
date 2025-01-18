@@ -1,10 +1,17 @@
-const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
 require('dotenv').config();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.MessageContent,
+    ],
+});
 const modulesDir = path.resolve('./modules');
 
 // Map to track loaded modules and their listeners
@@ -87,6 +94,17 @@ watcher
 // Login the bot
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+
+    client.user.setPresence({
+        status: 'idle',
+        activities: [
+          {
+            name: 'Starting...',
+            type: 4,
+          },
+        ],
+      });
+
 });
 
 client.login(process.env.BOT_TOKEN);
