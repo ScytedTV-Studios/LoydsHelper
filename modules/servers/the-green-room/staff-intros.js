@@ -2,7 +2,7 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder
 const fs = require('fs');
 const path = require('path');
 
-const introChannelID = '1153351998301806643';
+const introChannelID = '1317678221587906610';
 const dataPath = path.resolve('./modules/config/staff-intros.json');
 const rolesPath = path.resolve('./modules/config/staff-roles.json');
 
