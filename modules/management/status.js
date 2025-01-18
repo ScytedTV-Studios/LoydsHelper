@@ -19,5 +19,4 @@ const statuses = [
     }
   }
 
-updateStatus();
 setInterval(updateStatus, 30000);
