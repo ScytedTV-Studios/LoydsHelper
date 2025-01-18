@@ -7,7 +7,6 @@ const csvFilePath = './modules/config/show-pings.csv';
 const rolePings = new Map();
 const linkOnlyChannelIds = ['1238005967967223878', '1237204540210544701'];
 
-// Load the CSV file into a Map
 fs.createReadStream(csvFilePath)
   .pipe(csv())
   .on('data', (row) => {
@@ -37,11 +36,11 @@ client.on('messageCreate', async (message) => {
 
         if (series) {
           contentToSend += `**${series}:** `;
-          // Check for partial matches in rolePings
+
           for (const [show, roleId] of rolePings) {
             if (title.includes(show) || series.includes(show)) {
               roleToPing = `<@&${roleId}>`;
-              break; // Use the first matching role
+              break;
             }
           }
         }
@@ -60,12 +59,10 @@ client.on('messageCreate', async (message) => {
           embeds: []
         });
 
-        // React with a "❤️"
         await sentMessage.crosspost();
         await sentMessage.react('❤️');
       }
 
-      // Send the link message to the link-only channels if permissions allow
       const linkMessage = `**Open this link and HOLD!** \n${link}`;
       for (const linkOnlyChannelId of linkOnlyChannelIds) {
         const linkOnlyChannel = client.channels.cache.get(linkOnlyChannelId);
