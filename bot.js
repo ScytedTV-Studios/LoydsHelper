@@ -82,6 +82,17 @@ watcher
         if (filePath.endsWith('.js')) {
             console.log(`Module updated: ${filePath}`);
             loadModule(filePath);
+
+            client.user.setPresence({
+                status: 'idle',
+                activities: [
+                  {
+                    name: 'Starting...',
+                    type: 4,
+                  },
+                ],
+              });
+
         }
     })
     .on('unlink', (filePath) => {
