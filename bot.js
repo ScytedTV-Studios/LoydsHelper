@@ -77,12 +77,9 @@ watcher
         if (filePath.endsWith('.js')) {
             loadModule(filePath);
         }
-    })
-    .on('change', (filePath) => {
-        if (filePath.endsWith('.js')) {
-            console.log(`Module updated: ${filePath}`);
-            loadModule(filePath);
 
+          if (client.user) {
+            const status = statuses[statusIndex]();
             client.user.setPresence({
                 status: 'idle',
                 activities: [
@@ -92,6 +89,30 @@ watcher
                   },
                 ],
               });
+          } else {
+            console.warn('Client user is not ready yet.');
+          }
+
+    })
+    .on('change', (filePath) => {
+        if (filePath.endsWith('.js')) {
+            console.log(`Module updated: ${filePath}`);
+            loadModule(filePath);
+
+            if (client.user) {
+                const status = statuses[statusIndex]();
+                client.user.setPresence({
+                    status: 'idle',
+                    activities: [
+                      {
+                        name: 'Updating...',
+                        type: 4,
+                      },
+                    ],
+                  });
+              } else {
+                console.warn('Client user is not ready yet.');
+              }
 
         }
     })
@@ -99,6 +120,22 @@ watcher
         if (filePath.endsWith('.js')) {
             console.log(`Module removed: ${filePath}`);
             unloadModule(filePath);
+            
+            if (client.user) {
+                const status = statuses[statusIndex]();
+                client.user.setPresence({
+                    status: 'idle',
+                    activities: [
+                      {
+                        name: 'Updating...',
+                        type: 4,
+                      },
+                    ],
+                  });
+              } else {
+                console.warn('Client user is not ready yet.');
+              }
+
         }
     });
 
