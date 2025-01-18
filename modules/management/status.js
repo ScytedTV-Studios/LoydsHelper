@@ -15,6 +15,5 @@ function updateStatus() {
     console.warn('Client user is not ready yet.');
   }
 }
-  
-updateStatus();
+
 setInterval(updateStatus, 10000);
