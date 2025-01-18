@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
@@ -7,16 +7,20 @@ require('dotenv').config();
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 const modulesDir = path.resolve('./modules');
 
+// Map to track loaded modules and their listeners
 const loadedModules = new Map();
 
+// Function to load and execute raw JavaScript code
 const loadModule = (filePath) => {
     try {
-
+        // Read and execute the file's code
         const code = fs.readFileSync(filePath, 'utf-8');
-        const moduleFunction = new Function('client', 'console', code);
+        const moduleFunction = new Function('client', 'require', 'console', code);
 
+        // Unload existing module if already loaded
         unloadModule(filePath);
 
+        // Set up tracking for listeners
         const listeners = [];
         const trackingClient = new Proxy(client, {
             get(target, prop) {
@@ -30,8 +34,10 @@ const loadModule = (filePath) => {
             },
         });
 
-        moduleFunction(trackingClient, console);
+        // Execute the code with the injected dependencies
+        moduleFunction(trackingClient, require, console);
 
+        // Store listeners in the map
         loadedModules.set(filePath, listeners);
         console.log(`Module loaded: ${filePath}`);
     } catch (err) {
@@ -39,6 +45,7 @@ const loadModule = (filePath) => {
     }
 };
 
+// Function to unload a module
 const unloadModule = (filePath) => {
     if (loadedModules.has(filePath)) {
         const listeners = loadedModules.get(filePath);
@@ -50,10 +57,11 @@ const unloadModule = (filePath) => {
     }
 };
 
+// Watch the modules directory and subdirectories
 const watcher = chokidar.watch(modulesDir, {
     persistent: true,
     ignoreInitial: false,
-    depth: Infinity, 
+    depth: Infinity, // Watch all subdirectories
     awaitWriteFinish: true,
 });
 
@@ -76,6 +84,7 @@ watcher
         }
     });
 
+// Login the bot
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
