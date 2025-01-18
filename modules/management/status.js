@@ -5,15 +5,18 @@ const statuses = [
     () => ({ name: `${client.users.cache.size} users`, type: ActivityType.Listening }),
   ];
   
-let statusIndex = 0;
-function updateStatus() {
-  if (client.user) {
-    const status = statuses[statusIndex]();
-    client.user.setActivity(status.name, { type: status.type });
-    statusIndex = (statusIndex + 1) % statuses.length;
-  } else {
-    console.warn('Client user is not ready yet.');
+  let statusIndex = 0;
+  function updateStatus() {
+    if (client.user) {
+      const status = statuses[statusIndex]();
+      client.user.setPresence({
+        status: 'online',
+        activities: [{ name: status.name, type: status.type }],
+      });
+      statusIndex = (statusIndex + 1) % statuses.length;
+    } else {
+      console.warn('Client user is not ready yet.');
+    }
   }
-}
 
 setInterval(updateStatus, 30000);
