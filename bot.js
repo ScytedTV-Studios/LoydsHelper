@@ -79,7 +79,6 @@ watcher
         }
 
           if (client.user) {
-            const status = statuses[statusIndex]();
             client.user.setPresence({
                 status: 'idle',
                 activities: [
@@ -100,7 +99,6 @@ watcher
             loadModule(filePath);
 
             if (client.user) {
-                const status = statuses[statusIndex]();
                 client.user.setPresence({
                     status: 'idle',
                     activities: [
@@ -122,7 +120,6 @@ watcher
             unloadModule(filePath);
             
             if (client.user) {
-                const status = statuses[statusIndex]();
                 client.user.setPresence({
                     status: 'idle',
                     activities: [
