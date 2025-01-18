@@ -6,16 +6,13 @@ const introChannelID = '1317678221587906610';
 const dataPath = path.resolve('./modules/config/staff-intros.json');
 const rolesPath = path.resolve('./modules/config/staff-roles.json');
 
-// Load introductions and roles
 let intros = fs.existsSync(dataPath) ? JSON.parse(fs.readFileSync(dataPath, 'utf8')) : {};
 const roleHierarchy = fs.existsSync(rolesPath) ? JSON.parse(fs.readFileSync(rolesPath, 'utf8')) : [];
 
-// Save introductions to file
 function saveIntros() {
     fs.writeFileSync(dataPath, JSON.stringify(intros, null, 2));
 }
 
-// Get the highest role of a user based on the role hierarchy
 function getHighestRole(member) {
     const memberRoles = member.roles.cache.map((role) => role.id);
     for (const roleId of roleHierarchy) {
@@ -27,7 +24,6 @@ function getHighestRole(member) {
     return null;
 }
 
-// Command listener for "!intro create"
 client.on('messageCreate', async (message) => {
     if (message.channel.id !== introChannelID) return;
 
@@ -92,7 +88,6 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-// Button interaction listener
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton() && interaction.customId === 'edit_intro') {
         const userID = interaction.user.id;
@@ -118,21 +113,21 @@ client.on('interactionCreate', async (interaction) => {
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
             .setValue(introData.buttons[0]?.label || '');
-        
+
         const button1URL = new TextInputBuilder()
             .setCustomId('button1_url')
             .setLabel('Button 1 URL (Optional)')
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
             .setValue(introData.buttons[0]?.url || '');
-        
+
         const button2Label = new TextInputBuilder()
             .setCustomId('button2_label')
             .setLabel('Button 2 Label (Optional)')
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
             .setValue(introData.buttons[1]?.label || '');
-        
+
         const button2URL = new TextInputBuilder()
             .setCustomId('button2_url')
             .setLabel('Button 2 URL (Optional)')
@@ -152,7 +147,6 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-// Modal submission listener
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isModalSubmit() && interaction.customId === 'edit_intro_modal') {
         const userID = interaction.user.id;
@@ -220,7 +214,6 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-// Update role in embed when roles change
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.roles.cache.size === newMember.roles.cache.size) return;
 
