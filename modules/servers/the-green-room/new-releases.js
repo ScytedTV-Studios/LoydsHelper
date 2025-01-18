@@ -13,7 +13,6 @@ fs.createReadStream(csvFilePath)
     rolePings.set(row.show, row.roleId);
   })
   .on('end', () => {
-    console.log('CSV file successfully processed');
   });
 
 client.on('messageCreate', async (message) => {
