@@ -1,9 +1,15 @@
 const { ActivityType } = require('discord.js');
 
 const statuses = [
-    () => ({ name: `${client.guilds.cache.size} servers`, type: ActivityType.Watching }),
-    () => ({ name: `${client.users.cache.size} users`, type: ActivityType.Listening }),
-  ];
+  () => {
+    const serverCount = client.guilds.cache.size;
+    return { name: `${serverCount} servers`, type: ActivityType.Watching };
+  },
+  () => {
+    const userCount = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
+    return { name: `${userCount} users`, type: ActivityType.Listening };
+  },
+];
   
   let statusIndex = 0;
   function updateStatus() {
