@@ -87,7 +87,7 @@ watcher
                 status: 'idle',
                 activities: [
                   {
-                    name: 'Starting...',
+                    name: 'Updating...',
                     type: 4,
                   },
                 ],
