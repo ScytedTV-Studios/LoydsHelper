@@ -1,0 +1,74 @@
+{
+    "shows": {
+      "adventuring-academy": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/adventuring-academy.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/adventuring-academy.jpg",
+        "image": "https://cdn.scyted.tv/dropout/adventuring-academy.jpg"
+      },"adventuring-party": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/adventuring-party.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/adventuring-party.jpg",
+        "image": "https://cdn.scyted.tv/dropout/adventuring-party.jpg"
+      },
+      "dimension-20": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/dimension-20.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/dimension-20.jpg",
+        "image": "https://cdn.scyted.tv/dropout/dimension-20.jpg"
+      },
+      "breaking-news": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/breaking-news.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/breaking-news.jpg",
+        "image": "https://cdn.scyted.tv/dropout/breaking-news.jpg"
+      },
+      "dirty-laundry": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/dirty-laundry.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/dirty-laundry.jpg",
+        "image": "https://cdn.scyted.tv/dropout/dirty-laundry.jpg"
+      },
+      "dropout-presents": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/dropout-presents.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/dropout-presents.jpg",
+        "image": "https://cdn.scyted.tv/dropout/dropout-presents.jpg"
+      },
+      "game-changer": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/game-changer.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/game-changer.jpg",
+        "image": "https://cdn.scyted.tv/dropout/game-changer.jpg"
+      },
+      "make-some-noise": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/make-some-noise.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/make-some-noise.jpg",
+        "image": "https://cdn.scyted.tv/dropout/make-some-noise.jpg"
+      },
+      "monets-slumber-party": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/monets-slumber-party.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/monets-slumber-party.jpg",
+        "image": "https://cdn.scyted.tv/dropout/monets-slumber-party.jpg"
+      },
+      "play-it-by-ear": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/play-it-by-ear.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/play-it-by-ear.jpg",
+        "image": "https://cdn.scyted.tv/dropout/play-it-by-ear.jpg"
+      },
+      "smartypants": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/smartypants.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/smartypants.jpg",
+        "image": "https://cdn.scyted.tv/dropout/smartypants.jpg"
+      },
+      "thousandaires": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/thousandaires.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/thousandaires.jpg",
+        "image": "https://cdn.scyted.tv/dropout/thousandaires.jpg"
+      },
+      "um-actually": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/um-actually.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/um-actually.jpg",
+        "image": "https://cdn.scyted.tv/dropout/um-actually.jpg"
+      },
+      "very-important-people": {
+        "poster": "https://cdn.scyted.tv/dropout/poster/very-important-people.jpg",
+        "banner": "https://cdn.scyted.tv/dropout/event-banner/very-important-people.jpg",
+        "image": "https://cdn.scyted.tv/dropout/very-important-people.jpg"
+      }
+    }
+  }
+  
