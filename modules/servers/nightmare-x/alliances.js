@@ -24,7 +24,7 @@ async function updateAllianceEmbed(channel) {
         .setImage('https://cdn.scyted.tv/website-assets/website/empty.png')
         .setDescription(description);
 
-    const allianceMessage = await channel.messages.fetch('1330178504444346379');
+    const allianceMessage = await channel.messages.fetch('1330181074860511242');
     await allianceMessage.edit({ embeds: [embedMessage] });
 }
 
@@ -39,7 +39,7 @@ async function updateOppsEmbed(channel) {
         .setImage('https://cdn.scyted.tv/website-assets/website/empty.png')
         .setDescription(description);
 
-    const oppsMessage = await channel.messages.fetch('1330178506063351822');
+    const oppsMessage = await channel.messages.fetch('1330181075858751500');
     await oppsMessage.edit({ embeds: [embedMessage] });
 }
 
@@ -49,7 +49,7 @@ async function updateLastUpdatedEmbed(channel, currentTime) {
         .setColor('#0026ff')
         .setDescription(`**Updated:** <t:${currentTime}:R>`);
 
-    const updatedMessage = await channel.messages.fetch('1330178508323950723');
+    const updatedMessage = await channel.messages.fetch('1330181076852670515');
     await updatedMessage.edit({ embeds: [embedMessage] });
 }
 
