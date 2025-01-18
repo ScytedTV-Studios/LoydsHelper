@@ -42,7 +42,7 @@ client.on('messageCreate', async message => {
       await message.channel.send(`The trailer announcement was posted in <#${channel.id}>!`);
 
       if (liveEvent === 'yes') {
-        const liveEventEmbed = new MessageEmbed()
+        const liveEventEmbed = new EmbedBuilder()
           .setDescription('**Join the <#1238005967967223878>!**')
           .setColor('#FEEA3B');
 
@@ -70,7 +70,7 @@ client.on('messageCreate', async message => {
       const filter = m => !m.author.bot && m.author.id === message.author.id;
 
       for (const question of questions) {
-        const questionEmbed = new MessageEmbed()
+        const questionEmbed = new EmbedBuilder()
           .setDescription(question)
           .setColor('#FEEA3B');
 
@@ -93,7 +93,7 @@ client.on('messageCreate', async message => {
       await message.channel.send(`The new release announcement was posted in <#${channel.id}>!`);
 
       if (liveEvent === 'yes') {
-        const liveEventEmbed = new MessageEmbed()
+        const liveEventEmbed = new EmbedBuilder()
           .setDescription('**Join the <#1238005967967223878>!**')
           .setColor('#FEEA3B');
 
