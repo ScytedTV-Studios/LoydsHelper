@@ -9,7 +9,12 @@ const commands = [
         options: [
             {
                 name: 'server',
-                description: 'Server Statistics',
+                description: 'Server statistics',
+                type: 1
+            },
+            {
+                name: 'members',
+                description: 'Server member statistics',
                 type: 1
             }
         ]
