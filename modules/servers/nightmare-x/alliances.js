@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
-const alliancesFilePath = path.join(process.cwd(), 'modules', 'config', 'nx-alliances.json');
+const alliancesFilePath = path.join(process.cwd(), 'config', 'nx-alliances.json');
 
 function readAlliancesFile() {
     const data = fs.readFileSync(alliancesFilePath);
