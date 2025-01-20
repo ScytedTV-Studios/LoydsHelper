@@ -36,6 +36,13 @@ These are global features I plan to add to the bot over time that will work in a
 - [ ] Sticky Messages
 - [ ] Advanced Verification
 - [ ] Raid Protection
+- [ ] Social Media Notifications
+ <!-- - [ ] YouTube
+ - [ ] Twitch
+ - [ ] TikTok
+ - [ ] Kick
+ - [ ] Instagram
+ - [ ] X (Twitter) -->
 
 **Games & Activities:**
 - [ ] Economy
