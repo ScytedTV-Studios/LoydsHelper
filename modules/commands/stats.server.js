@@ -53,4 +53,3 @@ client.on('interactionCreate', async interaction => {
         await interaction.editReply({ embeds: [statsEmbed] });
     }
 });
-
