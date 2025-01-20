@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const introChannelID = '1317678221587906610';
-const dataPath = path.resolve('./modules/config/staff-intros.json');
-const rolesPath = path.resolve('./modules/config/staff-roles.json');
+const dataPath = path.resolve('./config/staff-intros.json');
+const rolesPath = path.resolve('./config/staff-roles.json');
 
 let intros = fs.existsSync(dataPath) ? JSON.parse(fs.readFileSync(dataPath, 'utf8')) : {};
 const roleHierarchy = fs.existsSync(rolesPath) ? JSON.parse(fs.readFileSync(rolesPath, 'utf8')) : [];
