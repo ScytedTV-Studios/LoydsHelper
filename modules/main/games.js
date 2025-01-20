@@ -3,7 +3,7 @@ const path = require('path');
 
 client.on('messageCreate', (message) => {
 
-  const configPath = path.join(process.cwd(), 'modules', 'config', 'free-games.json');
+  const configPath = path.join(process.cwd(), 'config', 'free-games.json');
   let channelsList;
 
   try {
