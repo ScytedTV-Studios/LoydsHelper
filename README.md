@@ -58,3 +58,4 @@ These are global features I plan to add to the bot over time that will work in a
  - [ ] Playstation Achievements
  - [ ] Steam Profile Stats
  - [ ] Minecraft Bedrock: Realms -->
+- [ ] Unban Request Forms
