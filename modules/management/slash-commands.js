@@ -21,6 +21,21 @@ const commands = [
                 name: 'channels',
                 description: 'Server channel statistics',
                 type: 1
+            },
+            {
+                name: 'roles',
+                description: 'Server role statistics',
+                type: 1
+            },
+            {
+                name: 'emojis',
+                description: 'Server emoji statistics',
+                type: 1
+            },
+            {
+                name: 'boosts',
+                description: 'Server boost statistics',
+                type: 1
             }
         ]
     }
