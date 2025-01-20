@@ -29,7 +29,7 @@ setInterval(async () => {
 
 function loadJSONFile(filePath) {
   try {
-    const data = fs.readFileSync(path.join(process.cwd(), 'modules/config', filePath), 'utf8');
+    const data = fs.readFileSync(path.join(process.cwd(), 'config', filePath), 'utf8');
     return JSON.parse(data).members;
   } catch (err) {
     console.error(`Error reading ${filePath}:`, err);
