@@ -23,7 +23,7 @@ These are global features I plan to add to the bot over time that will work in a
 - [ ] Polls
 - [ ] Giveaways
 - [ ] Leveling (Global and Per-Server)
-- [ ] Server & User Stats
+- [x] Server & User Stats
 - [ ] Role Mangement
 - [ ] Discord/Calendar Event Syncing
 - [ ] Temporary Voice & Text Channels
