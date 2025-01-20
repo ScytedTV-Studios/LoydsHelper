@@ -130,6 +130,25 @@ const commands = [
                 ]
             }
         ]
+    },
+    {
+        "name": "purge",
+        "description": "Purge messages from a channel",
+        "options": [
+            {
+                "name": "all",
+                "description": "Purge a specific number of messages from the channel",
+                "type": 1,
+                "options": [
+                    {
+                        "name": "count",
+                        "description": "The number of messages to purge",
+                        "type": 4,
+                        "required": false
+                    }
+                ]
+            }
+        ]
     }
 ];
 
