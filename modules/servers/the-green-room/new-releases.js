@@ -3,7 +3,7 @@ const csv = require('csv-parser');
 
 const { EmbedBuilder } = require('discord.js');
 
-const csvFilePath = './modules/config/show-pings.csv';
+const csvFilePath = './config/show-pings.csv';
 const rolePings = new Map();
 const linkOnlyChannelIds = ['1238005967967223878', '1237204540210544701'];
 
