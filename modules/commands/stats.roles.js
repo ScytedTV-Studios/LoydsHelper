@@ -17,20 +17,22 @@ client.on('interactionCreate', async interaction => {
         const totalRoles = allRoles.size - 1;
         const highestRole = allRoles.filter(role => role.id !== guild.id).sort((a, b) => b.position - a.position).first();
         const adminRoles = allRoles.filter(role => role.permissions.has(PermissionsBitField.Flags.Administrator));
-        const roleMentions = allRoles.filter(role => role.id !== guild.id)
+        const topRoles = allRoles.filter(role => role.id !== guild.id)
             .sort((a, b) => b.position - a.position)
-            .map(role => `<@&${role.id}>`)
-            .join(' ') || 'None';
+            .first(30);
+
+        const roleMentions = topRoles.map(role => `<@&${role.id}>`).join(' ');
+        const additionalRoles = totalRoles > 30 ? 'and more...' : '';
 
         const statsEmbed = new EmbedBuilder()
             .setColor('#CCCCFF')
             .setTitle(`Server Member Stats`)
+            .setDescription(`${roleMentions} ${additionalRoles}` || 'None')
             .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 1024 }))
             .addFields(
                 { name: 'Total Custom Roles', value: `${totalRoles}`, inline: true },
-                { name: 'Highest Role', value: `<@&${highestRole.id}>`, inline: true },
-                { name: 'Administrator Roles', value: `${adminRoles.size}`, inline: true },
-                { name: 'All Roles', value: roleMentions || 'None' }
+                { name: 'Highest Role', value: `${highestRole.name}`, inline: true },
+                { name: 'Administrator Roles', value: `${adminRoles.size}`, inline: true }
             )
             .setFooter({ text: `${serverName} (${guild.id})` })
             .setTimestamp();
