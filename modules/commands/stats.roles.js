@@ -26,7 +26,7 @@ client.on('interactionCreate', async interaction => {
 
         const statsEmbed = new EmbedBuilder()
             .setColor('#CCCCFF')
-            .setTitle(`Server Member Stats`)
+            .setTitle(`Server Role Stats`)
             .setDescription(`${roleMentions} ${additionalRoles}` || 'None')
             .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 1024 }))
             .addFields(
