@@ -17,6 +17,7 @@ Loyd's Helper uses the ScytedTV Studios API ([api.scyted.tv](https://api.scyted.
 These are global features I plan to add to the bot over time that will work in all servers who have them enabled.
 
 **Utilities:**
+- [ ] Module Mangement
 - [ ] Ticketing
 - [ ] Mod Mail
 - [ ] Polls
