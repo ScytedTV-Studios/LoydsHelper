@@ -36,16 +36,16 @@ client.on('interactionCreate', async interaction => {
             .setFooter({ text: `${serverName} (${guild.id})` })
             .setTimestamp();
 
+        if (interaction.guild.description) {
+            statsEmbed.addFields({ name: 'Server Description', value: interaction.guild.description, inline: false });
+        }
+
         if (interaction.guild.emojis.cache.size > 0) {
             statsEmbed.addFields({ name: 'Emojis', value: `${interaction.guild.emojis.cache.size}`, inline: true });
         }
 
         if (interaction.guild.premiumSubscriptionCount > 0) {
             statsEmbed.addFields({ name: 'Boosts', value: `${interaction.guild.premiumSubscriptionCount}`, inline: true });
-        }
-
-        if (interaction.guild.description) {
-            statsEmbed.addFields({ name: 'Server Description', value: interaction.guild.description, inline: false });
         }
 
         if (bannerURL) statsEmbed.setImage(bannerURL);
