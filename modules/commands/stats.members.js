@@ -14,8 +14,6 @@ client.on('interactionCreate', async interaction => {
 
         const serverName = interaction.guild.name;
         const totalMembers = interaction.guild.memberCount;
-        const onlineMembers = interaction.guild.members.cache.filter(m => m.presence?.status === 'online').size;
-        const offlineMembers = totalMembers - onlineMembers;
         const bots = interaction.guild.members.cache.filter(m => m.user.bot).size;
         const humans = totalMembers - bots;
         const totalBoosts = interaction.guild.premiumSubscriptionCount || 0;
@@ -28,8 +26,6 @@ client.on('interactionCreate', async interaction => {
             .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 1024 }))
             .addFields(
                 { name: 'Total Members', value: `${totalMembers}`, inline: true },
-                { name: 'Online Members', value: `${onlineMembers}`, inline: true },
-                { name: 'Offline Members', value: `${offlineMembers}`, inline: true },
                 { name: 'Humans', value: `${humans}`, inline: true },
                 { name: 'Bots', value: `${bots}`, inline: true },
                 { name: 'Total Boosts', value: `${totalBoosts}`, inline: true },
