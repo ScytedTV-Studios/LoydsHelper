@@ -1,4 +1,4 @@
-## Loyd's Helper
+# Loyd's Helper
 
 A work-in-progress Discord bot that is meant to handle both server-specific functions, as well as global modules that can be enabled or disabled per-server.
 
@@ -28,7 +28,8 @@ These are global features I plan to add to the bot over time that will work in a
 - [ ] Role Mangement
 - [ ] Discord/Calendar Event Syncing
 - [ ] Temporary Voice & Text Channels
-- [ ] Moderation & Automod
+- [ ] Moderation
+- [ ] Automod
 - [ ] Automatic Slow Mode
 - [ ] Audit Logging
 - [ ] Welcome Messages

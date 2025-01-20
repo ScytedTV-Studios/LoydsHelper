@@ -32,7 +32,8 @@ These are global features I plan to add to the bot over time that will work in a
 - [ ] Role Mangement
 - [ ] Discord/Calendar Event Syncing
 - [ ] Temporary Voice & Text Channels
-- [ ] Moderation & Automod
+- [ ] Moderation
+- [ ] Automod
 - [ ] Automatic Slow Mode
 - [ ] Audit Logging
 - [ ] Welcome Messages
