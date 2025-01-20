@@ -41,13 +41,6 @@ These are global features I plan to add to the bot over time that will work in a
 - [ ] Tic Tac Toe
 - [ ] Would You Rather
 - [ ] Truth or Dare
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
 
 **Other:**
 - [ ] Website Dashboard
