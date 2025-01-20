@@ -26,11 +26,36 @@ These are global features I plan to add to the bot over time that will work in a
 - [ ] Automatic Slow Mode
 - [ ] Audit Logging
 - [ ] Welcome Messages
+- [ ] Reminders
+- [ ] Sticky Messages
+- [ ] Advanced Verification
+- [ ] Raid Protection
 
 **Games & Activities:**
 - [ ] Economy
 - [ ] Item Collecting
+- [ ] Counting Channels
+- [ ] Trivia
+- [ ] Business Tycoon
+- [ ] Fishing, Farming & Mining
+- [ ] Tic Tac Toe
+- [ ] Would You Rather
+- [ ] Truth or Dare
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
 
 **Other:**
 - [ ] Website Dashboard
 - [ ] Enabling & Disabling Bot Modules
+- [ ] Game Stats
+ <!-- - [ ] Minecraft Java: Hypixel
+ - [ ] Minecraft Bedrock: The Hive
+ - [ ] Xbox Achievements
+ - [ ] Playstation Achievements
+ - [ ] Steam Profile Stats
+ - [ ] Minecraft Bedrock: Realms -->
