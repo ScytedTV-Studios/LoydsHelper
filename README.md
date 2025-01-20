@@ -33,3 +33,4 @@ These are global features I plan to add to the bot over time that will work in a
 
 **Other:**
 - [ ] Website Dashboard
+- [ ] Enabling & Disabling Bot Modules
