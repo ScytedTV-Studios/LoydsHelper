@@ -8,7 +8,7 @@ Using a modular approach, we can implement new features effortlessly and instant
 
 The way we manage to do this is by having the bot automatically monitor the "./modules" sub-directory for any added, removed, or updated js files. Once a module has been added or removed, it is either loaded or unloaded into the bot. When a module is updated, it is unloaded, then reloaded again.
 
-**Api Usage:**
+**API Usage:**
 
 Loyd's Helper uses the ScytedTV Studios API ([api.scyted.tv](https://api.scyted.tv/)) to privately store information behind an authentication barrier. This way, any information stored by the bot on users (such as their bot settings, game & activities stats, etc.) is only available to the bot and the individual user. Some APIs are public, but that is for things like leaderboards, etc. that are available publically via the ScytedTV API by requesting an API key ([more info](https://github.com/ScytedTV-Studios/API/blob/main/Credentials.md)).
 
