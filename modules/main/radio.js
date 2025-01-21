@@ -28,11 +28,11 @@ async function joinAndPlayStream() {
         console.log(`The bot has connected to the voice channel: ${channelID}`);
   
         const player = createAudioPlayer();
-  
+
         const resource = createAudioResource(streamURL, {
           inputType: null,
         });
-  
+
         player.play(resource);
   
         connection.subscribe(player);
