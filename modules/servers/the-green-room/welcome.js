@@ -6,7 +6,7 @@ client.on('guildMemberAdd', async member => {
 
       if (member.guild.id !== '1237187833324638209') return;
 
-      const systemChannel = member.guild.systemChannel;
+      const systemChannel = '1238493497036898354';
       if (!systemChannel) return console.error('System channel not found!');
 
       if (welcomedMembers.has(member.id)) {
