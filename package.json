@@ -15,6 +15,7 @@
     "axios": "^1.7.9",
     "chokidar": "^4.0.3",
     "csv-parser": "^3.1.0",
+    "dayjs": "^1.11.13",
     "discord.js": "^14.17.3",
     "dotenv": "^16.4.7",
     "node-fetch": "^3.3.2",
