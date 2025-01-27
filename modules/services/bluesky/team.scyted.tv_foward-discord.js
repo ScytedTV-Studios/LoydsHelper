@@ -2,7 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const { WebhookClient, EmbedBuilder } = require("discord.js");
 
-const monitoredAccounts = ["scyted.tv", "team.scyted.tv", "phrasing.scyted.tv", "creators.scyted.tv", "news.scyted.tv", "milo.scyted.tv", "tindalos.scyted.tv", "cr.scyted.tv"];
+const monitoredAccounts = ["loyd.scyted.tv", "ope.scyted.tv"];
 const bskyAPI = "https://bsky.social/xrpc/";
 const apiURL = `https://api.scyted.tv/v2/loydshelper/bluesky/${process.env.TEAM_SCYTED_TV_BSKY_USERNAME}/posted-to-discord.json`;
 
