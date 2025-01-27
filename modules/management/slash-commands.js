@@ -1,6 +1,20 @@
-
 const { REST, Routes } = require('discord.js');
-const dotenv = require('dotenv');
+const fs = require("fs");
+
+const TIME_ZONES = [
+    { name: "Pacific Standard Time (UTC-8)", value: "UTC-8" },
+    { name: "Mountain Standard Time (UTC-7)", value: "UTC-7" },
+    { name: "Central Standard Time (UTC-6)", value: "UTC-6" },
+    { name: "Eastern Standard Time (UTC-5)", value: "UTC-5" },
+    { name: "Greenwich Mean Time (UTC+0)", value: "UTC+0" },
+    { name: "Central European Time (UTC+1)", value: "UTC+1" },
+    { name: "Eastern European Time (UTC+2)", value: "UTC+2" },
+    { name: "India Standard Time (UTC+5:30)", value: "UTC+5:30" },
+    { name: "China Standard Time (UTC+8)", value: "UTC+8" },
+    { name: "Japan Standard Time (UTC+9)", value: "UTC+9" },
+    { name: "Australian Eastern Time (UTC+10)", value: "UTC+10" },
+    { name: "New Zealand Time (UTC+12)", value: "UTC+12" },
+];
 
 const commands = [
     {
@@ -106,7 +120,7 @@ const commands = [
             {
                 "name": "timeout",
                 "description": "Remove a timeout from a user",
-                "type": 1, 
+                "type": 1,
                 "options": [
                     {
                         "name": "user",
@@ -119,7 +133,7 @@ const commands = [
             {
                 "name": "ban",
                 "description": "Remove a ban from a user by user ID",
-                "type": 1, 
+                "type": 1,
                 "options": [
                     {
                         "name": "user",
@@ -149,8 +163,77 @@ const commands = [
                 ]
             }
         ]
+    },
+    {
+        name: "schedule",
+        description: "Schedule a Bluesky post",
+        options: [
+            {
+                name: "bluesky",
+                type: 1,
+                description: "Schedule a Bluesky post",
+                options: [
+                    {
+                        name: "username",
+                        description: "Select the Bluesky username",
+                        type: 3,
+                        required: true,
+                        choices: getUsernames().map((username) => ({
+                            name: username,
+                            value: username,
+                        })),
+                    },
+                    {
+                        name: "date",
+                        description: "Enter the date (e.g., January 27, 2025)",
+                        type: 3,
+                        required: true,
+                    },
+                    {
+                        name: "time",
+                        description: "Enter the time (e.g., 11:15 AM)",
+                        type: 3,
+                        required: true,
+                    },
+                    {
+                        name: "time_zone",
+                        description: "Select the time zone",
+                        type: 3,
+                        required: true,
+                        choices: TIME_ZONES.map((tz) => ({
+                            name: tz.name,
+                            value: tz.value,
+                        })),
+                    },
+                    {
+                        name: "text",
+                        description: "Enter the text for the post",
+                        type: 3,
+                        required: true,
+                    },
+                    {
+                        name: "attachment",
+                        description: "Enter the URL for an image attachment (optional)",
+                        type: 3,
+                        required: false,
+                    },
+                ],
+            },
+        ],
     }
 ];
+
+function getUsernames() {
+    const filePath = './config/bluesky-scheduled-posts.json';
+    try {
+        const data = fs.readFileSync(filePath, 'utf8');
+        const json = JSON.parse(data);
+        return json.usernames || [];
+    } catch (err) {
+        console.error('Error reading usernames from JSON file:', err);
+        return [];
+    }
+}
 
 async function pushSlashCommandsGlobally() {
 

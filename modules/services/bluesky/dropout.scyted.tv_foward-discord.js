@@ -2,15 +2,15 @@ require("dotenv").config();
 const axios = require("axios");
 const { WebhookClient, EmbedBuilder } = require("discord.js");
 
-const monitoredAccounts = ["loyd.scyted.tv", "ope.scyted.tv"];
+const monitoredAccounts = ["dropouttv.bsky.social", "dimension20.bsky.social", "vipeopleshow.bsky.social", "smartypantsshow.bsky.social", "dirtylaundryshow.bsky.social", "gastronauts.bsky.social", "dropoutpresents.bsky.social", "umactually.bsky.social", "makesomenoiseshow.bsky.social", "gamechangershow.bsky.social", "nobodyaskedshow.bsky.social"];
 const bskyAPI = "https://bsky.social/xrpc/";
-const apiURL = `https://api.scyted.tv/v2/loydshelper/bluesky/${process.env.TEAM_SCYTED_TV_BSKY_USERNAME}/posted-to-discord.json`;
+const apiURL = `https://api.scyted.tv/v2/loydshelper/bluesky/${process.env.DROPOUT_SCYTED_TV_BSKY_USERNAME}/posted-to-discord.json`;
 
-const BSKY_USERNAME = process.env.TEAM_SCYTED_TV_BSKY_USERNAME;
-const BSKY_PASSWORD = process.env.TEAM_SCYTED_TV_BSKY_PASSWORD;
+const BSKY_USERNAME = process.env.DROPOUT_SCYTED_TV_BSKY_USERNAME;
+const BSKY_PASSWORD = process.env.DROPOUT_SCYTED_TV_BSKY_PASSWORD;
 const SCYTEDTV_API = process.env.SCYTEDTV_API;
 
-const webhookNames = Object.keys(process.env).filter((key) => key.startsWith("TEAM_SCYTED_TV_BLUESKY_FORWARD_WEBHOOK_"));
+const webhookNames = Object.keys(process.env).filter((key) => key.startsWith("DROPOUT_SCYTED_TV_BLUESKY_FORWARD_WEBHOOK_"));
 const webhooks = webhookNames.map((name) => process.env[name]);
 
 let sessionToken;
@@ -131,11 +131,4 @@ async function monitorAndPostToDiscord() {
   await fetchPostedFromAPI();
   // console.log("Monitoring Bluesky posts...");
   setInterval(monitorAndPostToDiscord, 20000);
-})();
-
-(async function main() {
-  await authenticate();
-  await fetchPostedFromAPI();
-  // console.log("Monitoring Bluesky posts...");
-  setInterval(monitorAndPostToDiscord, 10000);
 })();
