@@ -84,23 +84,23 @@ async function monitorAndPostToDiscord() {
 
       // console.log(`New post detected from ${author.handle}: ${uri}`);
 
-      const formattedText = formatURLs(record.text || "");
+      // const formattedText = formatURLs(record.text || "");
 
-      const embed = new EmbedBuilder()
-        .setColor("#0C7CFC")
-        .setAuthor({
-          name: "Bluesky",
-          iconURL: "https://api.scyted.tv/v1/cdn/logos/bluesky.png",
-          url: `https://bsky.app/profile/${author.handle}/post/${uri.split("/").pop()}`,
-        })
-        .setDescription(formattedText)
-        .setFooter({
-          text: `@${author.handle}`,
-          url: `https://bsky.app/profile/${author.handle}`,
-        })
-        .setTimestamp();
+      // const embed = new EmbedBuilder()
+      //   .setColor("#0C7CFC")
+      //   .setAuthor({
+      //     name: "Bluesky",
+      //     iconURL: "https://api.scyted.tv/v1/cdn/logos/bluesky.png",
+      //     url: `https://bsky.app/profile/${author.handle}/post/${uri.split("/").pop()}`,
+      //   })
+      //   .setDescription(formattedText)
+      //   .setFooter({
+      //     text: `@${author.handle}`,
+      //     url: `https://bsky.app/profile/${author.handle}`,
+      //   })
+      //   .setTimestamp();
 
-      const postURL = `https://bsky.app/post/${uri.split("/").pop()}`;
+      const postURL = `https://bsky.app/profile/${author.handle}/post/${uri.split("/").pop()}`;
 
       for (const webhookURL of webhooks) {
         const webhook = new WebhookClient({ url: webhookURL });
@@ -108,7 +108,7 @@ async function monitorAndPostToDiscord() {
         try {
           await webhook.send({
             content: postURL,
-            embeds: [embed],
+            // embeds: [embed],
             username: author.displayName || author.handle,
             avatarURL: author.avatar || 'https://via.placeholder.com/150',
           });
@@ -125,6 +125,13 @@ async function monitorAndPostToDiscord() {
     console.error("Error monitoring Bluesky posts:", error.response?.data || error.message);
   }
 }
+
+(async function main() {
+  await authenticate();
+  await fetchPostedFromAPI();
+  // console.log("Monitoring Bluesky posts...");
+  setInterval(monitorAndPostToDiscord, 20000);
+})();
 
 (async function main() {
   await authenticate();
