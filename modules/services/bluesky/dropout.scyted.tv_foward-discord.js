@@ -1,6 +1,6 @@
 require("dotenv").config();
 const axios = require("axios");
-const { WebhookClient, EmbedBuilder } = require("discord.js");
+const { WebhookClient } = require("discord.js");
 
 const monitoredAccounts = ["dropouttv.bsky.social", "dimension20.bsky.social", "vipeopleshow.bsky.social", "smartypantsshow.bsky.social", "dirtylaundryshow.bsky.social", "gastronauts.bsky.social", "dropoutpresents.bsky.social", "umactually.bsky.social", "makesomenoiseshow.bsky.social", "gamechangershow.bsky.social", "nobodyaskedshow.bsky.social"];
 const bskyAPI = "https://bsky.social/xrpc/";
@@ -10,7 +10,9 @@ const BSKY_USERNAME = process.env.DROPOUT_SCYTED_TV_BSKY_USERNAME;
 const BSKY_PASSWORD = process.env.DROPOUT_SCYTED_TV_BSKY_PASSWORD;
 const SCYTEDTV_API = process.env.SCYTEDTV_API;
 
-const webhookNames = Object.keys(process.env).filter((key) => key.startsWith("DROPOUT_SCYTED_TV_BLUESKY_FORWARD_WEBHOOK_"));
+const webhookNames = Object.keys(process.env).filter((key) =>
+  key.startsWith("DROPOUT_SCYTED_TV_BLUESKY_FORWARD_WEBHOOK_")
+);
 const webhooks = webhookNames.map((name) => process.env[name]);
 
 let sessionToken;
@@ -23,24 +25,20 @@ async function authenticate() {
       password: BSKY_PASSWORD,
     });
     sessionToken = response.data.accessJwt;
-    // console.log("Authenticated with Bluesky!");
+    // console.log("Reauthenticated with Bluesky.");
   } catch (error) {
     console.error("Failed to authenticate with Bluesky:", error.response?.data || error.message);
-    process.exit(1);
   }
 }
 
 async function fetchPostedFromAPI() {
   try {
-    // console.log("Fetching posted posts from the API...");
     const response = await axios.get(apiURL, {
       headers: { Authorization: `Bearer ${SCYTEDTV_API}` },
     });
     const postedData = response.data;
-
     if (Array.isArray(postedData)) {
       postedPosts = new Set(postedData);
-      // console.log(`Loaded ${postedPosts.size} posts from the API.`);
     } else {
       console.warn("Unexpected data format from the API. Starting with an empty cache.");
     }
@@ -51,24 +49,20 @@ async function fetchPostedFromAPI() {
 
 async function updatePostedInAPI() {
   try {
-    // console.log("Updating posted posts in the API...");
     await axios.post(apiURL, Array.from(postedPosts), {
       headers: { Authorization: `Bearer ${SCYTEDTV_API}` },
     });
-    // console.log("Posted posts updated in the API.");
   } catch (error) {
     console.error("Failed to update posted posts in API:", error.response?.data || error.message);
   }
 }
 
-function formatURLs(text) {
-  return text.replace(
-    /https?:\/\/[^\s]+/g,
-    (url) => `[${url}](${url})`
-  );
-}
-
 async function monitorAndPostToDiscord() {
+  if (!sessionToken) {
+    console.warn("Skipping monitoring due to missing session token.");
+    return;
+  }
+
   try {
     const response = await axios.get(`${bskyAPI}app.bsky.feed.getTimeline`, {
       headers: { Authorization: `Bearer ${sessionToken}` },
@@ -77,42 +71,20 @@ async function monitorAndPostToDiscord() {
     const posts = response.data.feed;
 
     for (const post of posts) {
-      const { author, uri, record } = post.post;
+      const { author, uri } = post.post;
 
-      if (postedPosts.has(uri)) continue;
-      if (!monitoredAccounts.includes(author.handle)) continue;
-
-      // console.log(`New post detected from ${author.handle}: ${uri}`);
-
-      // const formattedText = formatURLs(record.text || "");
-
-      // const embed = new EmbedBuilder()
-      //   .setColor("#0C7CFC")
-      //   .setAuthor({
-      //     name: "Bluesky",
-      //     iconURL: "https://api.scyted.tv/v1/cdn/logos/bluesky.png",
-      //     url: `https://bsky.app/profile/${author.handle}/post/${uri.split("/").pop()}`,
-      //   })
-      //   .setDescription(formattedText)
-      //   .setFooter({
-      //     text: `@${author.handle}`,
-      //     url: `https://bsky.app/profile/${author.handle}`,
-      //   })
-      //   .setTimestamp();
+      if (postedPosts.has(uri) || !monitoredAccounts.includes(author.handle)) continue;
 
       const postURL = `https://bsky.app/profile/${author.handle}/post/${uri.split("/").pop()}`;
 
       for (const webhookURL of webhooks) {
         const webhook = new WebhookClient({ url: webhookURL });
-
         try {
           await webhook.send({
             content: postURL,
-            // embeds: [embed],
             username: author.displayName || author.handle,
-            avatarURL: author.avatar || 'https://via.placeholder.com/150',
+            avatarURL: author.avatar || "https://via.placeholder.com/150",
           });
-          // console.log(`Posted to webhook: ${webhookURL}`);
         } catch (err) {
           console.error("Failed to post to webhook:", err.message);
         }
@@ -129,6 +101,7 @@ async function monitorAndPostToDiscord() {
 (async function main() {
   await authenticate();
   await fetchPostedFromAPI();
-  // console.log("Monitoring Bluesky posts...");
+
   setInterval(monitorAndPostToDiscord, 20000);
+  setInterval(authenticate, 3600000);
 })();
