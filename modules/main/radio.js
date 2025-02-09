@@ -2,7 +2,7 @@
 // const fs = require('fs');
 
 // const voiceChannelsConfig = JSON.parse(fs.readFileSync('./config/join-vc.json', 'utf8')).voiceChannels;
-// const streamURL = "http://localhost:9999/stream";
+// const streamURL = "https://assets.scyted.tv/stream";
 
 // async function joinAndPlayStream() {
 //     for (const { guildID, channelID } of voiceChannelsConfig) {
