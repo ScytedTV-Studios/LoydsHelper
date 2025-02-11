@@ -45,7 +45,7 @@ async function checkRadioStatus() {
                         embeds: [
                             new EmbedBuilder()
                                 .setColor('Red')
-                                .setDescription(`<:crossmark:1330976664535961753> \`Disconnected from #${channelInfo.voiceChannel.name}: Radio Offline.\``)
+                                .setDescription(`<:crossmark:1330976664535961753> \`Disconnected from #${channelInfo.voiceChannel.name} (Radio Offline).\``)
                         ]
                     });
                 }
@@ -74,7 +74,7 @@ async function checkEmptyVoiceChannels() {
                 embeds: [
                     new EmbedBuilder()
                         .setColor('Red')
-                        .setDescription(`<:crossmark:1330976664535961753> \`Disconnected from #${channel.name}: Voice channel empty.\``)
+                        .setDescription(`<:crossmark:1330976664535961753> \`Disconnected from #${channel.name} (Voice channel empty).\``)
                 ]
             });
         }
