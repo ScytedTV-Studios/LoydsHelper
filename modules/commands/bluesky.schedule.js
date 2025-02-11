@@ -8,12 +8,12 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isCommand() || interaction.commandName !== "schedule") return;
+    if (!interaction.isCommand() || interaction.commandName !== "bluesky") return;
 
     await interaction.deferReply();
 
     const subcommand = interaction.options.getSubcommand();
-    if (subcommand === "bluesky") {
+    if (subcommand === "schedule") {
         const userID = interaction.user.id;
         if (userID !== "852572302590607361") {
             const embed = new EmbedBuilder()

@@ -165,13 +165,13 @@ const commands = [
         ]
     },
     {
-        name: "schedule",
-        description: "Schedule a Bluesky post",
+        name: "bluesky",
+        description: "Manage bluesky interactions",
         options: [
             {
-                name: "bluesky",
+                name: "schedule",
                 type: 1,
-                description: "Schedule a Bluesky post",
+                description: "Schedule a Bluesky post | bot admin only",
                 options: [
                     {
                         name: "username",
