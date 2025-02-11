@@ -241,6 +241,25 @@ const commands = [
                 type: 1
             }
         ]
+    },
+    {
+        name: "game",
+        description: "Play a game",
+        options: [
+            {
+                name: "tic-tac-toe",
+                description: "Play Tic-Tac-Toe with another user",
+                type: 1,
+                options: [
+                    {
+                        name: "user",
+                        description: "The user you want to play against",
+                        type: 6,
+                        required: true
+                    }
+                ]
+            }
+        ]
     }
 ];
 
