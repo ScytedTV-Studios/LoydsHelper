@@ -24,7 +24,7 @@ client.on('interactionCreate', async interaction => {
 
 
         const statsEmbed = new EmbedBuilder()
-            .setColor('#CCCCFF')
+            .setColor('Green')
             .setTitle(`Server Stats`)
             .setDescription(`**Name:** \`${serverName}\` (\`${serverRegion}\`)\n**Server ID:** \`${serverID}\`\n**Owner:** <@${serverOwner.id}> (\`${serverOwner.id}\`)\n\n**Created:** ${serverCreationDate}`)
             .setThumbnail(guild.iconURL({ dynamic: true }))

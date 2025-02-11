@@ -20,7 +20,7 @@ client.on('interactionCreate', async interaction => {
         const totalStickers = interaction.guild.stickers.cache.size;
 
         const statsEmbed = new EmbedBuilder()
-            .setColor('#CCCCFF')
+            .setColor('Green')
             .setTitle(`Server Emoji Stats`)
             .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 1024 }))
             .addFields(

@@ -23,7 +23,7 @@ client.on('interactionCreate', async interaction => {
 
 
         const statsEmbed = new EmbedBuilder()
-            .setColor('#CCCCFF')
+            .setColor('Green')
             .setTitle(`Server Channel Stats`)
             .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 1024 }))
             .addFields(
