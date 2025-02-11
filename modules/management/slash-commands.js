@@ -220,6 +220,27 @@ const commands = [
                 ],
             },
         ],
+    },
+    {
+        name: 'radio',
+        description: 'Radio system commands',
+        options: [
+            {
+                name: 'join',
+                description: 'Join the voice channel if the radio is online.',
+                type: 1
+            },
+            {
+                name: 'leave',
+                description: 'Leave the voice channel.',
+                type: 1
+            },
+            {
+                name: 'now-playing',
+                description: 'Check the currently playing song on the radio.',
+                type: 1
+            }
+        ]
     }
 ];
 
