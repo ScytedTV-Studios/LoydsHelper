@@ -25,7 +25,7 @@ client.on('interactionCreate', async interaction => {
         const additionalRoles = totalRoles > 30 ? 'and more...' : '';
 
         const statsEmbed = new EmbedBuilder()
-            .setColor('#CCCCFF')
+            .setColor('Green')
             .setTitle(`Server Role Stats`)
             .setDescription(`${roleMentions} ${additionalRoles}` || 'None')
             .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 1024 }))
