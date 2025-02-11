@@ -67,6 +67,8 @@ async function sendGameBoard(interaction, gameState) {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
 
+    if (!interaction.customId.startsWith('move-')) return;
+
     const [_, row, col] = interaction.customId.split('-').map(Number);
     const gameId = `${interaction.guildId}-${interaction.channelId}`;
     const gameState = games.get(gameId);
@@ -80,6 +82,7 @@ client.on('interactionCreate', async interaction => {
             ],
          ephemeral: true });
     }
+
     if (interaction.user.id !== gameState.turn) {
         return interaction.reply({
             embeds: [
