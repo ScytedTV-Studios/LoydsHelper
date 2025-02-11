@@ -20,3 +20,9 @@
 - `/stats members` | View server members statistics
 - `/stats roles` | View server roles statistics
 - `/stats server` | View server statistics
+
+**`/radio`** | *Radio*
+
+- `/radio join` | Join the voice channel if the radio is online
+- `/radio leave` | Leave the voice channel
+- `/radio now-playing` | Check the currently playing song on the radio
