@@ -19,6 +19,18 @@ client.on('interactionCreate', async interaction => {
             });
         }
 
+        // Get the voice channel object using the channel ID
+        const voiceChannel = interaction.guild.channels.cache.get(connection.joinConfig.channelId);
+        if (!voiceChannel) {
+            return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setColor('Red')
+                        .setDescription('<:crossmark:1330976664535961753> `Could not find the voice channel.`')
+                ]
+            });
+        }
+
         connection.destroy();
         activeChannels.delete(interaction.guild.id);
 
@@ -26,7 +38,7 @@ client.on('interactionCreate', async interaction => {
             embeds: [
                 new EmbedBuilder()
                     .setColor('Green')
-                    .setDescription(`<:checkmark:1330976666016550932> \`Left the voice channel.\``)
+                    .setDescription(`<:checkmark:1330976666016550932> \`Left #${voiceChannel.name}\``)
             ]
         });
     }
