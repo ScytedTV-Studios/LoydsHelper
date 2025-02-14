@@ -2,8 +2,8 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 const axios = require('axios');
 require('dotenv').config();
 
-const API_URL = 'https://api.scyted.tv/v2/loydshelper/games/tic-tac-toe/conclusions.json';
 const API_KEY = process.env.SCYTEDTV_API;
+const API_BASE_URL = 'https://api.scyted.tv/v2/loydshelper/games/tic-tac-toe/wins';
 
 const games = new Map();
 
@@ -14,36 +14,30 @@ client.on('interactionCreate', async interaction => {
         const opponent = interaction.options.getUser('user');
 
         if (opponent.bot) {
-            return interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setColor('Red')
-                        .setDescription('<:crossmark:1330976664535961753> `You cannot play against a bot.`')
-                ],
-             ephemeral: true });
+            return interaction.reply({ 
+                embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ You cannot play against a bot.')], 
+                ephemeral: true 
+            });
         }
         if (opponent.id === interaction.user.id) {
-            return interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setColor('Red')
-                        .setDescription('<:crossmark:1330976664535961753> `You cannot play against yourself.`')
-                ],
-             ephemeral: true });
-        }
-        if (games.has(`${interaction.guildId}-${interaction.channelId}`)) {
-            return interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setColor('Red')
-                        .setDescription('<:crossmark:1330976664535961753> `A game is already in progress.`')
-                ],
-             ephemeral: true });
+            return interaction.reply({ 
+                embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ You cannot play against yourself.')], 
+                ephemeral: true 
+            });
         }
 
-        const gameId = `${interaction.guildId}-${interaction.channelId}`;
+        const gameId = `${interaction.guildId}-${interaction.channelId}-${interaction.user.id}-${opponent.id}`;
+        const reverseGameId = `${interaction.guildId}-${interaction.channelId}-${opponent.id}-${interaction.user.id}`;
+
+        if (games.has(gameId) || games.has(reverseGameId)) {
+            return interaction.reply({ 
+                embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ You already have an ongoing game with this user in this channel.')], 
+                ephemeral: true 
+            });
+        }
+
         const gameState = {
-            players: [opponent.id, interaction.user.id],
+            players: [interaction.user.id, opponent.id],
             turn: opponent.id,
             board: Array(9).fill(null),
             winner: null
@@ -70,38 +64,29 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.customId.startsWith('move-')) return;
 
     const [_, row, col] = interaction.customId.split('-').map(Number);
-    const gameId = `${interaction.guildId}-${interaction.channelId}`;
+    const gameId = [...games.keys()].find(id => id.includes(interaction.channelId) && id.includes(interaction.user.id));
     const gameState = games.get(gameId);
 
     if (!gameState) {
-        return interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor('Red')
-                    .setDescription('<:crossmark:1330976664535961753> `This game has timed out.`')
-            ],
-         ephemeral: true });
+        return interaction.reply({ 
+            embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ This game has timed out.')], 
+            ephemeral: true 
+        });
     }
 
     if (interaction.user.id !== gameState.turn) {
-        return interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor('Red')
-                    .setDescription('<:crossmark:1330976664535961753> `It\'s not your turn.`')
-            ],
-         ephemeral: true });
+        return interaction.reply({ 
+            embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ It\'s not your turn.')], 
+            ephemeral: true 
+        });
     }
 
     const index = row * 3 + col;
     if (gameState.board[index] !== null) {
-        return interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor('Red')
-                    .setDescription('<:crossmark:1330976664535961753> `That spot is already taken.`')
-            ],
-         ephemeral: true });
+        return interaction.reply({ 
+            embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ That spot is already taken.')], 
+            ephemeral: true 
+        });
     }
 
     gameState.board[index] = gameState.turn === gameState.players[0] ? 'X' : 'O';
@@ -145,7 +130,7 @@ async function endGame(interaction, gameState) {
     }
 
     const buttons = generateBoardButtons(gameState, true);
-    games.delete(`${interaction.guildId}-${interaction.channelId}`);
+    games.delete([...games.keys()].find(id => id.includes(interaction.channelId) && id.includes(gameState.players[0]) && id.includes(gameState.players[1])));
     await interaction.update({ embeds: [embed], components: buttons });
 }
 
@@ -171,10 +156,21 @@ function generateBoardButtons(gameState, disableAll) {
 }
 
 async function updateStats(userId, type) {
+    const userUrl = `${API_BASE_URL}/${userId}`;
     try {
-        const response = await axios.get(API_URL, { headers: { 'Authorization': `Bearer ${API_KEY}` } });
-        const stats = response.data;
-        const userStats = stats[userId] || { wins: 0, losses: 0 };
+        let userStats;
+        
+        try {
+            const response = await axios.get(userUrl, { headers: { 'Authorization': `Bearer ${API_KEY}` } });
+            userStats = response.data;
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                userStats = { wins: 0, losses: 0 };
+            } else {
+                console.error(`Failed to fetch stats for ${userId}:`, error);
+                return;
+            }
+        }
 
         if (type === 'win') {
             userStats.wins += 1;
@@ -182,8 +178,7 @@ async function updateStats(userId, type) {
             userStats.losses += 1;
         }
 
-        const updatedStats = { ...stats, [userId]: userStats };
-        await axios.post(API_URL, updatedStats, { headers: { 'Authorization': `Bearer ${API_KEY}` } });
+        await axios.post(userUrl, userStats, { headers: { 'Authorization': `Bearer ${API_KEY}` } });
     } catch (error) {
         console.error(`Failed to update stats for ${userId}:`, error);
     }
