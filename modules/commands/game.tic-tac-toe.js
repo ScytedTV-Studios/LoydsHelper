@@ -15,13 +15,13 @@ client.on('interactionCreate', async interaction => {
 
         if (opponent.bot) {
             return interaction.reply({ 
-                embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ You cannot play against a bot.')], 
+                embeds: [new EmbedBuilder().setColor('Red').setDescription('<:crossmark:1330976664535961753> `You cannot play against a bot.`')], 
                 ephemeral: true 
             });
         }
         if (opponent.id === interaction.user.id) {
             return interaction.reply({ 
-                embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ You cannot play against yourself.')], 
+                embeds: [new EmbedBuilder().setColor('Red').setDescription('<:crossmark:1330976664535961753> `You cannot play against yourself.`')], 
                 ephemeral: true 
             });
         }
@@ -31,7 +31,7 @@ client.on('interactionCreate', async interaction => {
 
         if (games.has(gameId) || games.has(reverseGameId)) {
             return interaction.reply({ 
-                embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ You already have an ongoing game with this user in this channel.')], 
+                embeds: [new EmbedBuilder().setColor('Red').setDescription('<:crossmark:1330976664535961753> `You already have an ongoing game with this user in this channel.`')], 
                 ephemeral: true 
             });
         }
@@ -69,14 +69,14 @@ client.on('interactionCreate', async interaction => {
 
     if (!gameState) {
         return interaction.reply({ 
-            embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ This game has timed out.')], 
+            embeds: [new EmbedBuilder().setColor('Red').setDescription('<:crossmark:1330976664535961753> `This game has timed out.`')], 
             ephemeral: true 
         });
     }
 
     if (interaction.user.id !== gameState.turn) {
         return interaction.reply({ 
-            embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ It\'s not your turn.')], 
+            embeds: [new EmbedBuilder().setColor('Red').setDescription('<:crossmark:1330976664535961753> `It\'s not your turn.`')], 
             ephemeral: true 
         });
     }
@@ -84,7 +84,7 @@ client.on('interactionCreate', async interaction => {
     const index = row * 3 + col;
     if (gameState.board[index] !== null) {
         return interaction.reply({ 
-            embeds: [new EmbedBuilder().setColor('Red').setDescription('❌ That spot is already taken.')], 
+            embeds: [new EmbedBuilder().setColor('Red').setDescription('<:crossmark:1330976664535961753> `That spot is already taken.`')], 
             ephemeral: true 
         });
     }
