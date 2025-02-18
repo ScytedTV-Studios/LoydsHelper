@@ -102,4 +102,5 @@ function startServer() {
     }
 }
 
-startServer();
+// startServer();
+setTimeout(startServer, 10000);
