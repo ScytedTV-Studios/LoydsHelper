@@ -66,7 +66,7 @@ const resetUser = async (interaction, code) => {
 
         const embed = new EmbedBuilder()
             .setColor('Green')
-            .setDescription(`<:checkmark:1330976666016550932> \`${minecraftUsername}\` has been reset, please regenerate a new code.\nFollow the instructions in <#1324833840254029959> to get started.`);
+            .setDescription(`<:checkmark:1330976666016550932> \`${minecraftUsername}\` has been reset, please regenerate a new code.\n-# Follow the instructions in <#1324833840254029959> to get started.`);
     
         await interaction.editReply({ embeds: [embed], ephemeral: false });
     } catch (error) {
