@@ -88,7 +88,7 @@ async function fetchAndProcessEvents() {
             }
         });
 
-        console.log(`Events successfully sent to ${apiUrl}`);
+        // console.log(`Events successfully sent to ${apiUrl}`);
     } catch (error) {
         console.error('Error fetching or processing events:', error);
     }
