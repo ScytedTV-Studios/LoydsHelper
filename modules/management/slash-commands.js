@@ -260,6 +260,25 @@ const commands = [
                 ]
             }
         ]
+    },
+    {
+        name: "seaside",
+        description: "Seaside Manager",
+        options: [
+            {
+                name: "reset",
+                description: "Reset a user's connection by code.",
+                type: 1,
+                options: [
+                    {
+                        name: "code",
+                        description: "The code to reset the user.",
+                        type: 3,
+                        required: true
+                    }
+                ]
+            }
+        ]
     }
 ];
 
