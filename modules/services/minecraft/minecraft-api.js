@@ -87,17 +87,17 @@ app.put("*", (req, res) => {
 function startServer() {
     try {
         const server = app.listen(PORT, () => {
-            console.log(`Server is running on http://localhost:${PORT}`);
+            // console.log(`Server is running on http://localhost:${PORT}`);
         });
 
         server.on('error', (err) => {
-            console.error('Server error:', err.message);
-            console.log('Retrying in 5 seconds...');
+            // console.error('Server error:', err.message);
+            // console.log('Retrying in 5 seconds...');
             setTimeout(startServer, 5000);
         });
     } catch (err) {
-        console.error('Unexpected error:', err.message);
-        console.log('Retrying in 5 seconds...');
+        // console.error('Unexpected error:', err.message);
+        // console.log('Retrying in 5 seconds...');
         setTimeout(startServer, 5000);
     }
 }
