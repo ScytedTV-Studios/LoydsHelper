@@ -4,7 +4,7 @@ const path = require("path");
 client.on('interactionCreate', async (interaction) => {
 
     if (interaction.isButton() && interaction.customId === 'link_button') {
-        if (interaction.channel.id === '1324833840254029959' && interaction.message.id === '1342593500876640420') {
+        if (interaction.channel.id === '1324833840254029959' && interaction.message.id === '1342596840108982282') {
 
             const modal = new ModalBuilder()
                 .setCustomId('link_modal')
