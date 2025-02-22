@@ -49,4 +49,4 @@ async function updateServerStatus() {
     }
 }
 
-setInterval(updateServerStatus, 10 * 1000);
+setInterval(updateServerStatus, 20000);
