@@ -19,9 +19,9 @@
   },
   {
     "id": "1341363562915823708",
-    "inUse": true,
-    "partyId": 52,
-    "cooldownTime": 1739876596636
+    "inUse": false,
+    "partyId": 0,
+    "cooldownTime": 1740192412505
   },
   {
     "id": "1341363614191325294",
