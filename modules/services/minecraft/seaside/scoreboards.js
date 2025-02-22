@@ -44,4 +44,4 @@ async function sendPostRequest(baseUrl, name, value) {
 }
 
 processUrls();
-setInterval(processUrls, 60 * 1000);
+setInterval(processUrls, 20000);
