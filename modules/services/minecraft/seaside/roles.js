@@ -111,4 +111,4 @@ const updateRoles = async () => {
     }
 };
 
-setInterval(updateRoles, 20000);
+setInterval(updateRoles, 3000);
