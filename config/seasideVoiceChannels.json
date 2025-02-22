@@ -1,9 +1,9 @@
 [
   {
     "id": "1334254260849872966",
-    "inUse": true,
-    "partyId": 51,
-    "cooldownTime": 1740191594579
+    "inUse": false,
+    "partyId": 0,
+    "cooldownTime": 1740191887900
   },
   {
     "id": "1334254921075130439",
