@@ -41,7 +41,7 @@ const updateRoles = async () => {
 
                 if (member.nickname !== minecraftUsername) {
                     await member.setNickname(minecraftUsername).catch(console.error);
-                    console.log(`Set nickname of ${discordUserId} to ${minecraftUsername}`);
+                    // console.log(`Set nickname of ${discordUserId} to ${minecraftUsername}`);
                 }
 
                 let hasAnyTag = false;
@@ -54,55 +54,55 @@ const updateRoles = async () => {
 
                     if (hasTag && !hasRole) {
                         await member.roles.add(roleId).catch(console.error);
-                        console.log(`Added role ${roleId} to user ${discordUserId}`);
+                        // console.log(`Added role ${roleId} to user ${discordUserId}`);
                     }
 
                     if (!hasTag && hasRole) {
                         await member.roles.remove(roleId).catch(console.error);
-                        console.log(`Removed role ${roleId} from user ${discordUserId}`);
+                        // console.log(`Removed role ${roleId} from user ${discordUserId}`);
                     }
                 }
 
                 if (!hasAnyTag) {
                     if (!member.roles.cache.has(noTagsRoleId)) {
                         await member.roles.add(noTagsRoleId).catch(console.error);
-                        console.log(`Added no-tags role ${noTagsRoleId} to user ${discordUserId}`);
+                        // console.log(`Added no-tags role ${noTagsRoleId} to user ${discordUserId}`);
                     }
                 } else {
 
                     if (member.roles.cache.has(noTagsRoleId)) {
                         await member.roles.remove(noTagsRoleId).catch(console.error);
-                        console.log(`Removed no-tags role ${noTagsRoleId} from user ${discordUserId}`);
+                        // console.log(`Removed no-tags role ${noTagsRoleId} from user ${discordUserId}`);
                     }
                 }
 
                 if (member.roles.cache.has(notConnectedRoleId)) {
                     await member.roles.remove(notConnectedRoleId).catch(console.error);
-                    console.log(`Removed not-connected role ${notConnectedRoleId} from user ${discordUserId}`);
+                    // console.log(`Removed not-connected role ${notConnectedRoleId} from user ${discordUserId}`);
                 }
 
             } else {
 
                 if (member.nickname) {
                     await member.setNickname(null).catch(console.error);
-                    console.log(`Reset nickname of ${discordUserId}`);
+                    // console.log(`Reset nickname of ${discordUserId}`);
                 }
 
                 for (const roleId of Object.values(roleMappings)) {
                     if (member.roles.cache.has(roleId)) {
                         await member.roles.remove(roleId).catch(console.error);
-                        console.log(`Removed role ${roleId} from user ${discordUserId} (no connected Minecraft account)`);
+                        // console.log(`Removed role ${roleId} from user ${discordUserId} (no connected Minecraft account)`);
                     }
                 }
 
                 if (!member.roles.cache.has(notConnectedRoleId)) {
                     await member.roles.add(notConnectedRoleId).catch(console.error);
-                    console.log(`Added not-connected role ${notConnectedRoleId} to user ${discordUserId}`);
+                    // console.log(`Added not-connected role ${notConnectedRoleId} to user ${discordUserId}`);
                 }
 
                 if (member.roles.cache.has(noTagsRoleId)) {
                     await member.roles.remove(noTagsRoleId).catch(console.error);
-                    console.log(`Removed no-tags role ${noTagsRoleId} from user ${discordUserId}`);
+                    // console.log(`Removed no-tags role ${noTagsRoleId} from user ${discordUserId}`);
                 }
             }
         }
@@ -111,4 +111,4 @@ const updateRoles = async () => {
     }
 };
 
-setInterval(updateRoles, 5000);
+setInterval(updateRoles, 20000);
