@@ -6,7 +6,7 @@ client.on('messageCreate', async (message) => {
     if (message.channel.id === sourceChannelId) {
       const targetChannel = client.channels.cache.get(targetChannelId);
       if (targetChannel) {
-        let contentToSend = `<@&1237874872659742811> `;
+        let contentToSend = `<@&${roleIdToPing}> `;
   
         if (message.content) {
           contentToSend += message.content;
