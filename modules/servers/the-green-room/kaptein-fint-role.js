@@ -2,7 +2,60 @@ const { EmbedBuilder } = require('discord.js');
 
 const allowedUsers = ['852572302590607361', '676018788810096661'];
 const allowedServer = '1237187833324638209';
-const roleId = '1311109132371361944';
+const roleId = '1249070768633938072';
+
+client.on('messageCreate', async (message) => {
+    if (!message.guild || message.guild.id !== allowedServer) return;
+    if (!message.content.startsWith('!name ')) return;
+    if (!allowedUsers.includes(message.author.id)) return;
+
+    const newName = message.content.slice(6).trim();
+    const role = await message.guild.roles.fetch(roleId).catch(() => null);
+
+    if (!role) {
+        return message.channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription('<:crossmark:1330976664535961753> `Role not found.`')
+            ]
+        });
+    }
+
+    const restrictedNames = [
+        'Owner', 'Admin', 'Moderator', 'Helper', 
+        'Event Organizer', 'Dropout Official', 'The Green Room'
+    ];
+
+    if (restrictedNames.some(word => newName.toLowerCase().includes(word.toLowerCase()))) {
+        return message.channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription('<:crossmark:1330976664535961753> `That name is restricted.`')
+            ]
+        });
+    }
+
+    try {
+        await role.setName(newName);
+        return message.channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor('Green')
+                    .setDescription(`<:checkmark:1330976666016550932> Role name changed to \`${newName}\`.`)
+            ]
+        });
+    } catch (error) {
+        return message.channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription(`<:crossmark:1330976664535961753> \`Error changing role name: ${error.message}\``)
+            ]
+        });
+    }
+});
 
 client.on('messageCreate', async (message) => {
     if (!message.guild || message.guild.id !== allowedServer) return;
