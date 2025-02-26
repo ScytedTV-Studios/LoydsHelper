@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 
 const allowedUsers = ['852572302590607361', '676018788810096661'];
 const allowedServer = '1237187833324638209';
-const roleId = '1249070768633938072';
+const roleId = '1311109132371361944';
 
 client.on('messageCreate', async (message) => {
     if (!message.guild || message.guild.id !== allowedServer) return;
