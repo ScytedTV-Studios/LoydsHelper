@@ -21,7 +21,8 @@ const ONLINE_THRESHOLDS = {
     5: 604800 * 1000,
 };
 
-const ANNOUNCE_CHANNEL_ID = "1238493497036898354";
+// const ANNOUNCE_CHANNEL_ID = "1238493497036898354";
+const ANNOUNCE_CHANNEL_ID = "1344824659727614045";
 
 let onlineUsers = {};
 
@@ -79,7 +80,7 @@ async function updateRoles(member) {
                     `<:crossmark:1330976664535961753> <@${userId}> has lost the <@&${highestBadge}> badge.`
                 );
 
-            // await announceChannel.send({ embeds: [embed] }).catch(console.error);
+            await announceChannel.send({ embeds: [embed] }).catch(console.error);
         }
 
         return;
@@ -111,7 +112,7 @@ async function updateRoles(member) {
             .setColor("Green")
             .setDescription(`<:checkmark:1330976666016550932> <@${userId}> has been awarded the <@&${ROLES[newlyAssignedBadge]}> badge!`);
 
-        // await announceChannel.send({ embeds: [embed] }).catch(console.error);
+        await announceChannel.send({ embeds: [embed] }).catch(console.error);
     }
 }
 
