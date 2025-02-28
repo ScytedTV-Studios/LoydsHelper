@@ -58,63 +58,63 @@ async function updateStatus(userId, status) {
     }
 }
 
-async function updateRoles(member) {
-    const userId = member.id;
-    const guild = member.guild;
-    const announceChannel = guild.channels.cache.get(ANNOUNCE_CHANNEL_ID);
+// async function updateRoles(member) {
+//     const userId = member.id;
+//     const guild = member.guild;
+//     const announceChannel = guild.channels.cache.get(ANNOUNCE_CHANNEL_ID);
     
-    if (!onlineUsers[userId] || onlineUsers[userId].timestamp === null) {
-        let highestBadge = null;
+//     if (!onlineUsers[userId] || onlineUsers[userId].timestamp === null) {
+//         let highestBadge = null;
 
-        for (const [tier, roleId] of Object.entries(ROLES)) {
-            if (member.roles.cache.has(roleId)) {
-                highestBadge = ROLES[tier];
-                await member.roles.remove(roleId).catch(console.error);
-            }
-        }
+//         for (const [tier, roleId] of Object.entries(ROLES)) {
+//             if (member.roles.cache.has(roleId)) {
+//                 highestBadge = ROLES[tier];
+//                 await member.roles.remove(roleId).catch(console.error);
+//             }
+//         }
 
-        if (highestBadge && announceChannel) {
-            const embed = new EmbedBuilder()
-                .setColor("Red")
-                .setDescription(
-                    `<:crossmark:1330976664535961753> <@${userId}> has lost the <@&${highestBadge}> badge.`
-                );
+//         if (highestBadge && announceChannel) {
+//             const embed = new EmbedBuilder()
+//                 .setColor("Red")
+//                 .setDescription(
+//                     `<:crossmark:1330976664535961753> <@${userId}> has lost the <@&${highestBadge}> badge.`
+//                 );
 
-            await announceChannel.send({ embeds: [embed] }).catch(console.error);
-        }
+//             await announceChannel.send({ embeds: [embed] }).catch(console.error);
+//         }
 
-        return;
-    }
+//         return;
+//     }
 
-    const timeOnline = (getTimestamp() - onlineUsers[userId].timestamp) * 1000;
-    let newlyAssignedBadge = null;
+//     const timeOnline = (getTimestamp() - onlineUsers[userId].timestamp) * 1000;
+//     let newlyAssignedBadge = null;
 
-    for (const [tierStr, requiredTime] of Object.entries(ONLINE_THRESHOLDS)) {
-        const tier = parseInt(tierStr);
-        const roleId = ROLES[tier];
+//     for (const [tierStr, requiredTime] of Object.entries(ONLINE_THRESHOLDS)) {
+//         const tier = parseInt(tierStr);
+//         const roleId = ROLES[tier];
 
-        if (!roleId) continue;
+//         if (!roleId) continue;
 
-        if (timeOnline >= requiredTime) {
-            if (!member.roles.cache.has(roleId)) {
-                await member.roles.add(roleId).catch(console.error);
-                newlyAssignedBadge = tier;
-            }
-        } else {
-            if (member.roles.cache.has(roleId)) {
-                await member.roles.remove(roleId).catch(console.error);
-            }
-        }
-    }
+//         if (timeOnline >= requiredTime) {
+//             if (!member.roles.cache.has(roleId)) {
+//                 await member.roles.add(roleId).catch(console.error);
+//                 newlyAssignedBadge = tier;
+//             }
+//         } else {
+//             if (member.roles.cache.has(roleId)) {
+//                 await member.roles.remove(roleId).catch(console.error);
+//             }
+//         }
+//     }
 
-    if (newlyAssignedBadge && announceChannel) {
-        const embed = new EmbedBuilder()
-            .setColor("Green")
-            .setDescription(`<:checkmark:1330976666016550932> <@${userId}> has been awarded the <@&${ROLES[newlyAssignedBadge]}> badge!`);
+//     if (newlyAssignedBadge && announceChannel) {
+//         const embed = new EmbedBuilder()
+//             .setColor("Green")
+//             .setDescription(`<:checkmark:1330976666016550932> <@${userId}> has been awarded the <@&${ROLES[newlyAssignedBadge]}> badge!`);
 
-        await announceChannel.send({ embeds: [embed] }).catch(console.error);
-    }
-}
+//         await announceChannel.send({ embeds: [embed] }).catch(console.error);
+//     }
+// }
 
 client.on("presenceUpdate", async (oldPresence, newPresence) => {
     if (!presenceUpdateEnabled) return;
@@ -209,8 +209,8 @@ async function ready() {
         console.error("Error updating online user list:", error.message);
     }
 
-    // checkAndAssignRoles();
-    // setInterval(checkAndAssignRoles, 60000);
+    checkAndAssignRoles();
+    setInterval(checkAndAssignRoles, 60000);
 }
 
 function chunkObject(obj, size) {
