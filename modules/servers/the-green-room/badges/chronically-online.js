@@ -158,26 +158,40 @@ async function ready() {
     const members = await guild.members.fetch();
 
     let onlineUsersToAdd = {};
+    let currentlyOnline = new Set();
 
     members.forEach((member) => {
-        if (member.presence && member.presence.status !== "offline" && !onlineUsers.hasOwnProperty(member.id)) {
-            onlineUsersToAdd[member.id] = {
-                status: member.presence.status,
-                timestamp: getTimestamp(),
-            };
+        if (member.presence && member.presence.status !== "offline") {
+            currentlyOnline.add(member.id);
+            if (!onlineUsers.hasOwnProperty(member.id)) {
+                onlineUsersToAdd[member.id] = {
+                    status: member.presence.status,
+                    timestamp: getTimestamp(),
+                };
+            }
         }
     });
 
-    if (Object.keys(onlineUsersToAdd).length > 0) {
-        const chunks = chunkObject(onlineUsersToAdd, 500);
-        for (let i = 0; i < chunks.length; i++) {
-            try {
-                const response = await axios.get(API_URL, {
-                    headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
-                });
+    try {
+        const response = await axios.get(API_URL, {
+            headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
+        });
 
-                let existingData = response.status === 200 ? response.data : {};
+        let existingData = response.status === 200 ? response.data : {};
 
+        let usersToRemove = Object.keys(existingData).filter(userId => !currentlyOnline.has(userId));
+
+        if (usersToRemove.length > 0) {
+            usersToRemove.forEach(userId => delete existingData[userId]);
+            await axios.post(API_URL, existingData, {
+                headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
+            });
+            console.log(`Removed ${usersToRemove.length} offline users from the API.`);
+        }
+
+        if (Object.keys(onlineUsersToAdd).length > 0) {
+            const chunks = chunkObject(onlineUsersToAdd, 500);
+            for (let i = 0; i < chunks.length; i++) {
                 const updatedData = { ...existingData, ...chunks[i] };
 
                 await axios.post(API_URL, updatedData, {
@@ -186,15 +200,13 @@ async function ready() {
 
                 onlineUsers = updatedData;
 
-                // console.log(`Added ${Object.keys(chunks[i]).length} online users to the API.`);
-
                 if (i < chunks.length - 1) {
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 }
-            } catch (error) {
-                console.error("Error adding online users:", error.message);
             }
         }
+    } catch (error) {
+        console.error("Error updating online user list:", error.message);
     }
 
     checkAndAssignRoles();
