@@ -2,7 +2,7 @@ require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
-const API_URL = "http://api.scyted.tv/v2/loydshelper/thegreenroom/statuses";
+const API_URL = "http://api.scyted.tv/v2/loydshelper/userinfo/statuses/1237187833324638209";
 const SERVER_ID = "1237187833324638209";
 
 const ROLES = {
