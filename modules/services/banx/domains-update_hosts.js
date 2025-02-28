@@ -29,7 +29,7 @@ function fetchAndCleanFile(url, filePath) {
 
             fs.writeFile(filePath, cleanedData, 'utf8', (err) => {
                 if (err) console.error(`Error writing to ${filePath}:`, err);
-                else console.log(`Updated ${filePath}`);
+                // else console.log(`Updated ${filePath}`);
             });
         });
     }).on('error', (err) => {
