@@ -209,8 +209,8 @@ async function ready() {
         console.error("Error updating online user list:", error.message);
     }
 
-    checkAndAssignRoles();
-    setInterval(checkAndAssignRoles, 60000);
+    // checkAndAssignRoles();
+    // setInterval(checkAndAssignRoles, 60000);
 }
 
 function chunkObject(obj, size) {
