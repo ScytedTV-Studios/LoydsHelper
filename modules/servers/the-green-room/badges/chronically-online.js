@@ -80,7 +80,7 @@ async function updateRoles(member) {
                     `<:crossmark:1330976664535961753> <@${userId}> has lost the <@&${highestBadge}> badge.`
                 );
 
-            await announceChannel.send({ embeds: [embed] }).catch(console.error);
+            // await announceChannel.send({ embeds: [embed] }).catch(console.error);
         }
 
         return;
