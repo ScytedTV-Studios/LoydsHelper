@@ -19,7 +19,7 @@ async function updateFile() {
             
             fs.writeFile(path, cleanedData, 'utf8', (err) => {
                 if (err) console.error('Error writing file:', err);
-                else console.log('File updated successfully.');
+                // else console.log('File updated successfully.');
             });
         });
     }).on('error', (err) => {
