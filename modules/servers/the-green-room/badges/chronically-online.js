@@ -186,7 +186,7 @@ async function ready() {
             await axios.post(API_URL, existingData, {
                 headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
             });
-            console.log(`Removed ${usersToRemove.length} offline users from the API.`);
+            // console.log(`Removed ${usersToRemove.length} offline users from the API.`);
         }
 
         if (Object.keys(onlineUsersToAdd).length > 0) {
@@ -210,7 +210,7 @@ async function ready() {
     }
 
     checkAndAssignRoles();
-    setInterval(checkAndAssignRoles, 5000);
+    setInterval(checkAndAssignRoles, 60000);
 }
 
 function chunkObject(obj, size) {
