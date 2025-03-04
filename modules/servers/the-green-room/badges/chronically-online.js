@@ -131,7 +131,7 @@ async function updateRoles(member) {
                 if (await updateStatus(userId, "offline")) {
                     await member.roles.remove(roleId).catch(console.error);
                 } else {
-                    return; // Don't remove roles if API request failed
+                    return;
                 }
             }
         }
