@@ -21,9 +21,7 @@ const ONLINE_THRESHOLDS = {
     5: 604800 * 1000,
 };
 
-// const ANNOUNCE_CHANNEL_ID = "1238493497036898354";
 const ANNOUNCE_CHANNEL_ID = "1344824659727614045";
-
 let onlineUsers = {};
 
 const getTimestamp = () => Math.floor(Date.now() / 1000);
@@ -36,10 +34,12 @@ async function fetchStatusCache() {
 
         if (response.status === 200) {
             onlineUsers = response.data;
+            return true;
         }
     } catch (error) {
         console.error("Error fetching status cache:", error.message);
     }
+    return false;
 }
 
 async function updateStatus(userId, status) {
@@ -53,23 +53,45 @@ async function updateStatus(userId, status) {
         });
 
         onlineUsers = updatedData;
+        return true;
     } catch (error) {
         console.error(`Failed to update status for ${userId}:`, error.message);
     }
+    return false;
+}
+
+async function removeUserFromStatus(userId) {
+    try {
+        const { [userId]: removedUser, ...updatedData } = onlineUsers;
+
+        await axios.post(API_URL, updatedData, {
+            headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
+        });
+
+        onlineUsers = updatedData;
+        return true;
+    } catch (error) {
+        console.error(`Failed to remove ${userId} from status data:`, error.message);
+    }
+    return false;
 }
 
 async function updateRoles(member) {
     const userId = member.id;
     const guild = member.guild;
     const announceChannel = guild.channels.cache.get(ANNOUNCE_CHANNEL_ID);
-    
+
     if (!onlineUsers[userId] || onlineUsers[userId].timestamp === null) {
         let highestBadge = null;
 
         for (const [tier, roleId] of Object.entries(ROLES)) {
             if (member.roles.cache.has(roleId)) {
                 highestBadge = ROLES[tier];
-                await member.roles.remove(roleId).catch(console.error);
+                if (await removeUserFromStatus(userId)) {
+                    await member.roles.remove(roleId).catch(console.error);
+                } else {
+                    return;
+                }
             }
         }
 
@@ -97,12 +119,20 @@ async function updateRoles(member) {
 
         if (timeOnline >= requiredTime) {
             if (!member.roles.cache.has(roleId)) {
-                await member.roles.add(roleId).catch(console.error);
-                newlyAssignedBadge = tier;
+                if (await updateStatus(userId, "online")) {
+                    await member.roles.add(roleId).catch(console.error);
+                    newlyAssignedBadge = tier;
+                } else {
+                    return;
+                }
             }
         } else {
             if (member.roles.cache.has(roleId)) {
-                await member.roles.remove(roleId).catch(console.error);
+                if (await updateStatus(userId, "offline")) {
+                    await member.roles.remove(roleId).catch(console.error);
+                } else {
+                    return; // Don't remove roles if API request failed
+                }
             }
         }
     }
@@ -126,33 +156,18 @@ client.on("presenceUpdate", async (oldPresence, newPresence) => {
     if (oldPresence && oldPresence.status === newStatus) return;
 
     if (newStatus !== "offline" && (!onlineUsers[userId] || onlineUsers[userId].timestamp === null)) {
-        await updateStatus(userId, newStatus);
+        if (!(await updateStatus(userId, newStatus))) return;
     }
 
     if (newStatus === "offline" && onlineUsers[userId] && onlineUsers[userId].timestamp !== null) {
-        await removeUserFromStatus(userId);
+        if (!(await removeUserFromStatus(userId))) return;
     }
 
     await updateRoles(newPresence.member);
 });
 
-async function removeUserFromStatus(userId) {
-    try {
-        const { [userId]: removedUser, ...updatedData } = onlineUsers;
-
-        await axios.post(API_URL, updatedData, {
-            headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
-        });
-
-        onlineUsers = updatedData;
-        // console.log(`Removed ${userId} from the status data.`);
-    } catch (error) {
-        console.error(`Failed to remove ${userId} from status data:`, error.message);
-    }
-}
-
 async function ready() {
-    await fetchStatusCache();
+    if (!(await fetchStatusCache())) return;
 
     const guild = await client.guilds.fetch(SERVER_ID);
     const members = await guild.members.fetch();
@@ -183,10 +198,7 @@ async function ready() {
 
         if (usersToRemove.length > 0) {
             usersToRemove.forEach(userId => delete existingData[userId]);
-            await axios.post(API_URL, existingData, {
-                headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
-            });
-            // console.log(`Removed ${usersToRemove.length} offline users from the API.`);
+            if (!(await axios.post(API_URL, existingData, { headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` } }))) return;
         }
 
         if (Object.keys(onlineUsersToAdd).length > 0) {
@@ -194,9 +206,7 @@ async function ready() {
             for (let i = 0; i < chunks.length; i++) {
                 const updatedData = { ...existingData, ...chunks[i] };
 
-                await axios.post(API_URL, updatedData, {
-                    headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` },
-                });
+                if (!(await axios.post(API_URL, updatedData, { headers: { Authorization: `Bearer ${process.env.SCYTEDTV_API}` } }))) return;
 
                 onlineUsers = updatedData;
 
@@ -213,25 +223,6 @@ async function ready() {
     setInterval(checkAndAssignRoles, 60000);
 }
 
-function chunkObject(obj, size) {
-    const result = [];
-    const entries = Object.entries(obj);
-
-    while (entries.length) {
-        result.push(Object.fromEntries(entries.splice(0, size)));
-    }
-
-    return result;
-}
-
-async function checkAndAssignRoles() {
-    const guild = await client.guilds.fetch(SERVER_ID);
-    const members = await guild.members.fetch();
-
-    members.forEach((member) => updateRoles(member));
-}
-
 let presenceUpdateEnabled = false;
-setTimeout(() => {presenceUpdateEnabled = true;}, 15000);
-
+setTimeout(() => { presenceUpdateEnabled = true; }, 15000);
 setTimeout(ready, 5000);
