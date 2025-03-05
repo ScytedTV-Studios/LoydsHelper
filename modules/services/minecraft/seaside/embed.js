@@ -1,10 +1,5 @@
 const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 
-if (!global.client) {
-    console.error("[ERROR] Client is not defined. Ensure you have initialized 'client' before using this event.");
-    process.exit(1);
-}
-
 client.on('messageCreate', async (message) => {
     try {
         if (message.author.id === '852572302590607361' && message.content.toLowerCase() === '!seaside embed') {
