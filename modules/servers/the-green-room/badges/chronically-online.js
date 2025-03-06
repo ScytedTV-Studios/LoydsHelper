@@ -223,6 +223,17 @@ async function ready() {
     setInterval(checkAndAssignRoles, 60000);
 }
 
+function chunkObject(obj, size) {
+    const result = [];
+    const entries = Object.entries(obj);
+
+    while (entries.length) {
+        result.push(Object.fromEntries(entries.splice(0, size)));
+    }
+
+    return result;
+}
+
 async function checkAndAssignRoles() {
     const guild = await client.guilds.fetch(SERVER_ID);
     const members = await guild.members.fetch();
