@@ -5,7 +5,7 @@ async function updateData() {
     try {
         const apiToken = process.env.SCYTEDTV_API;
         if (!apiToken) {
-            console.error('[ERROR] SCYTEDTV_API token is missing in .env file.');
+            console.error('SCYTEDTV_API token is missing in .env file.');
             return;
         }
 
@@ -14,45 +14,31 @@ async function updateData() {
             'Content-Type': 'application/json',
         };
 
-        const [tagsResponse, discordResponse] = await Promise.allSettled([
-            axios.get('https://api.scyted.tv/v2/seaside/data/tags', { headers }),
-            axios.get('https://api.scyted.tv/v2/seaside/connect/discord', { headers }),
-        ]);
+        const tagsResponse = await axios.get('https://api.scyted.tv/v2/seaside/data/tags', { headers });
+        const tagsData = tagsResponse.data;
 
-        if (tagsResponse.status === "rejected") {
-            console.error("[ERROR] Failed to fetch tags:", tagsResponse.reason?.response?.data || tagsResponse.reason?.message);
-            return;
-        }
-        if (discordResponse.status === "rejected") {
-            console.error("[ERROR] Failed to fetch Discord data:", discordResponse.reason?.response?.data || discordResponse.reason?.message);
-            return;
-        }
+        const discordResponse = await axios.get('https://api.scyted.tv/v2/seaside/connect/discord', { headers });
+        const discordData = discordResponse.data;
 
-        const tagsData = tagsResponse.value.data;
-        const discordData = discordResponse.value.data;
+        for (const name in tagsData) {
+            if (tagsData.hasOwnProperty(name)) {
+                const tagPayload = { [name]: tagsData[name] };
 
-        const tagUpdates = Object.entries(tagsData).map(async ([name, value]) => {
-            try {
-                await axios.post(`https://api.scyted.tv/v2/seaside/data/tags/${name}`, { [name]: value }, { headers });
-                console.log(`[SUCCESS] Updated tags for: ${name}`);
-            } catch (error) {
-                console.error(`[ERROR] Failed to update tag ${name}:`, error.response?.data || error.message);
+                await axios.post(`https://api.scyted.tv/v2/seaside/data/tags/${name}`, tagPayload, { headers });
+                // console.log(`Updated tags for: ${name}`);
             }
-        });
+        }
 
-        const discordUpdates = Object.entries(discordData).map(async ([name, value]) => {
-            try {
-                await axios.post(`https://api.scyted.tv/v2/seaside/connect/discord/${name}`, { [name]: value }, { headers });
-                console.log(`[SUCCESS] Updated Discord data for: ${name}`);
-            } catch (error) {
-                console.error(`[ERROR] Failed to update Discord data ${name}:`, error.response?.data || error.message);
+        for (const name in discordData) {
+            if (discordData.hasOwnProperty(name)) {
+                const discordPayload = { [name]: discordData[name] };
+
+                await axios.post(`https://api.scyted.tv/v2/seaside/connect/discord/${name}`, discordPayload, { headers });
+                // console.log(`Updated Discord data for: ${name}`);
             }
-        });
-
-        await Promise.allSettled([...tagUpdates, ...discordUpdates]);
-
+        }
     } catch (error) {
-        console.error('[ERROR] Unexpected error updating data:', error.message);
+        console.error('Error updating data:', error.response ? error.response.data : error.message);
     }
 }
 
