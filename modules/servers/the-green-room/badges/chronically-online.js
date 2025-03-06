@@ -223,6 +223,13 @@ async function ready() {
     setInterval(checkAndAssignRoles, 60000);
 }
 
+async function checkAndAssignRoles() {
+    const guild = await client.guilds.fetch(SERVER_ID);
+    const members = await guild.members.fetch();
+
+    members.forEach((member) => updateRoles(member));
+}
+
 let presenceUpdateEnabled = false;
 setTimeout(() => { presenceUpdateEnabled = true; }, 15000);
 setTimeout(ready, 5000);
