@@ -6,11 +6,8 @@ async function createBackupIfNeeded() {
         const data = response.data;
 
         if (Array.isArray(data) && data.length > 0) {
-            try {
-                createBackup();
-            } catch (backupError) {
-                console.error('Error running createBackup:', backupError.message);
-            }
+            // console.log('Contents detected in online.json. Running createBackup...');
+            createBackup();
         } else {
             // console.log('No contents in online.json. Skipping createBackup.');
         }
