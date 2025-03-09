@@ -105,8 +105,11 @@ async function updateRoles(member) {
 client.on("presenceUpdate", async (oldPresence, newPresence) => {
     if (!presenceUpdateEnabled) return;
     if (!newPresence.member || newPresence.guild.id !== SERVER_ID) return;
+    if (newPresence.member.user.bot) return;
+
     const userId = newPresence.userId;
     const newStatus = newPresence.status;
+    
     if (oldPresence && oldPresence.status === newStatus) return;
     if (newStatus !== "offline" && (!onlineUsers[userId] || onlineUsers[userId].timestamp === null)) {
         await updateStatus(userId, newStatus);
