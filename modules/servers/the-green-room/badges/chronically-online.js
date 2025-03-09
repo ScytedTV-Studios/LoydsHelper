@@ -22,9 +22,8 @@ const ONLINE_THRESHOLDS = {
 };
 
 const ANNOUNCE_CHANNEL_ID = "1344824659727614045";
-let onlineUsers = {};
-let writeQueue = Promise.resolve();
 
+let onlineUsers = {};
 const getTimestamp = () => Math.floor(Date.now() / 1000);
 
 async function fetchStatusCache() {
@@ -38,25 +37,24 @@ async function fetchStatusCache() {
     }
 }
 
-async function queueWriteToFile() {
-    writeQueue = writeQueue.then(async () => {
-        try {
-            fs.writeFileSync(path, JSON.stringify(onlineUsers, null, 2), "utf8");
-        } catch (error) {
-            console.error("Failed to write to JSON file:", error.message);
-        }
-    });
-}
-
 async function updateStatus(userId, status) {
     const timestamp = status === "offline" ? null : getTimestamp();
     onlineUsers[userId] = { status, timestamp };
-    await queueWriteToFile();
+    queueUpdate();
 }
 
 async function removeUserFromStatus(userId) {
     delete onlineUsers[userId];
-    await queueWriteToFile();
+    queueUpdate();
+}
+
+let updateQueue = null;
+function queueUpdate() {
+    if (updateQueue) return;
+    updateQueue = setTimeout(() => {
+        fs.writeFileSync(path, JSON.stringify(onlineUsers, null, 4));
+        updateQueue = null;
+    }, 1000);
 }
 
 async function updateRoles(member) {
@@ -80,10 +78,8 @@ async function updateRoles(member) {
                 .setDescription(
                     `<:crossmark:1330976664535961753> <@${userId}> has lost the <@&${highestBadge}> badge.`
                 );
-
             await announceChannel.send({ embeds: [embed] }).catch(console.error);
         }
-
         return;
     }
 
@@ -112,35 +108,46 @@ async function updateRoles(member) {
         const embed = new EmbedBuilder()
             .setColor("Green")
             .setDescription(`<:checkmark:1330976666016550932> <@${userId}> has been awarded the <@&${ROLES[newlyAssignedBadge]}> badge!`);
-
         await announceChannel.send({ embeds: [embed] }).catch(console.error);
     }
 }
 
 client.on("presenceUpdate", async (oldPresence, newPresence) => {
     if (!presenceUpdateEnabled) return;
-    if (!newPresence.member || newPresence.guild.id !== SERVER_ID) return;
-    if (newPresence.member.user.bot) return;
-
+    if (!newPresence.member || newPresence.member.user.bot || newPresence.guild.id !== SERVER_ID) return;
     const userId = newPresence.userId;
     const newStatus = newPresence.status;
-
     if (oldPresence && oldPresence.status === newStatus) return;
-
     if (newStatus !== "offline" && (!onlineUsers[userId] || onlineUsers[userId].timestamp === null)) {
         await updateStatus(userId, newStatus);
     }
-
     if (newStatus === "offline" && onlineUsers[userId] && onlineUsers[userId].timestamp !== null) {
         await removeUserFromStatus(userId);
     }
-
     await updateRoles(newPresence.member);
 });
 
 async function ready() {
     await fetchStatusCache();
-    await checkAndAssignRoles();
+    const guild = await client.guilds.fetch(SERVER_ID);
+    const members = await guild.members.fetch();
+    let currentlyOnline = new Set();
+    members.forEach((member) => {
+        if (member.presence && member.presence.status !== "offline") {
+            currentlyOnline.add(member.id);
+            if (!onlineUsers.hasOwnProperty(member.id)) {
+                onlineUsers[member.id] = {
+                    status: member.presence.status,
+                    timestamp: getTimestamp(),
+                };
+            }
+        }
+    });
+    
+    let usersToRemove = Object.keys(onlineUsers).filter(userId => !currentlyOnline.has(userId));
+    usersToRemove.forEach(userId => delete onlineUsers[userId]);
+    queueUpdate();
+    checkAndAssignRoles();
     setInterval(checkAndAssignRoles, 60000);
 }
 
@@ -152,5 +159,4 @@ async function checkAndAssignRoles() {
 
 let presenceUpdateEnabled = false;
 setTimeout(() => { presenceUpdateEnabled = true; }, 15000);
-
 setTimeout(ready, 5000);
