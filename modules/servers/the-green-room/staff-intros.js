@@ -25,6 +25,7 @@ function getHighestRole(member) {
 }
 
 client.on('messageCreate', async (message) => {
+    if (client.id !== "1147308835808235581") return;
     if (message.channel.id !== introChannelID) return;
 
     if (message.content === '!intro create') {
@@ -89,6 +90,7 @@ client.on('messageCreate', async (message) => {
 });
 
 client.on('interactionCreate', async (interaction) => {
+    if (client.id !== "1147308835808235581") return;
     if (interaction.isButton() && interaction.customId === 'edit_intro') {
         const userID = interaction.user.id;
         const introData = intros[userID];
@@ -97,7 +99,7 @@ client.on('interactionCreate', async (interaction) => {
             const embed = new EmbedBuilder()
                 .setColor('Red')
                 .setDescription('<:crossmark:1330976664535961753> `You are not allowed to edit this introduction.`');
-            return interaction.reply({ embeds: [embed] });
+            return interaction.reply({ embeds: [embed], ephemeral: true});
             // return interaction.reply({ content: 'You are not allowed to edit this introduction.', ephemeral: true });
         }
 
@@ -152,6 +154,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.on('interactionCreate', async (interaction) => {
+    if (client.id !== "1147308835808235581") return;
     if (interaction.isModalSubmit() && interaction.customId === 'edit_intro_modal') {
         const userID = interaction.user.id;
         const newIntro = interaction.fields.getTextInputValue('intro_input');
@@ -219,6 +222,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
+    if (client.id !== "1147308835808235581") return;
     if (oldMember.roles.cache.size === newMember.roles.cache.size) return;
 
     const userID = newMember.id;
