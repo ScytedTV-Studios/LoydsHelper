@@ -58,12 +58,14 @@ async function fetchAndProcessEvents() {
 
             if (!eventName.startsWith('[Event]')) continue;
 
+            const cleanEventName = eventName.replace(/^\[Event\] /, '');
+
             const frontMatter = event.description ? extractFrontMatter(event.description) : {};
 
             if ((epoch >= currentEpoch) || (endEpoch && currentEpoch >= epoch && currentEpoch <= endEpoch)) {
                 const eventObject = {
                     id: `event${eventCounter}`,
-                    name: eventName,
+                    name: cleanEventName,
                     epoch: epoch,
                     ...frontMatter
                 };
