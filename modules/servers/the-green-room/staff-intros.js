@@ -25,7 +25,7 @@ function getHighestRole(member) {
 }
 
 client.on('messageCreate', async (message) => {
-    if (client.id !== "1147308835808235581") return;
+    if (client.user.id !== "1147308835808235581") return;
     if (message.channel.id !== introChannelID) return;
 
     if (message.content === '!intro create') {
@@ -90,7 +90,7 @@ client.on('messageCreate', async (message) => {
 });
 
 client.on('interactionCreate', async (interaction) => {
-    if (client.id !== "1147308835808235581") return;
+    if (client.user.id !== "1147308835808235581") return;
     if (interaction.isButton() && interaction.customId === 'edit_intro') {
         const userID = interaction.user.id;
         const introData = intros[userID];
@@ -154,7 +154,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.on('interactionCreate', async (interaction) => {
-    if (client.id !== "1147308835808235581") return;
+    if (client.user.id !== "1147308835808235581") return;
     if (interaction.isModalSubmit() && interaction.customId === 'edit_intro_modal') {
         const userID = interaction.user.id;
         const newIntro = interaction.fields.getTextInputValue('intro_input');
@@ -222,7 +222,8 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
-    if (client.id !== "1147308835808235581") return;
+    console.log(client.user.id)
+    if (client.user.id !== "1147308835808235581") return;
     if (oldMember.roles.cache.size === newMember.roles.cache.size) return;
 
     const userID = newMember.id;
