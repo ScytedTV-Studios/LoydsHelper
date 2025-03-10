@@ -94,7 +94,11 @@ client.on('interactionCreate', async (interaction) => {
         const introData = intros[userID];
 
         if (!introData || interaction.message.id !== introData.messageID) {
-            return interaction.reply({ content: 'You are not allowed to edit this introduction.', ephemeral: true });
+            const embed = new EmbedBuilder()
+                .setColor('Red')
+                .setDescription('<:crossmark:1330976664535961753> `You are not allowed to edit this introduction.`');
+            return interaction.reply({ embeds: [embed] });
+            // return interaction.reply({ content: 'You are not allowed to edit this introduction.', ephemeral: true });
         }
 
         const modal = new ModalBuilder()
