@@ -88,7 +88,7 @@ client.on('messageCreate', async message => {
         .setColor('Red')
         .setDescription('<:crossmark:1330976664535961753> `Error sending discussion message. Please check your input and try again.`');
       // message.channel.send('Error sending discussion message. Please check your input and try again.');
-      channel.send({ embeds: [embed] });
+      message.channel.send({ embeds: [embed] });
     }
   }
 });
