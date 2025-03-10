@@ -134,7 +134,10 @@ client.on('messageCreate', async message => {
       }
     } catch (error) {
       console.error('Error closing discussion:', error);
-      message.channel.send('Error closing discussion. Please try again later.');
+      const embed = new EmbedBuilder()
+        .setColor('Red')
+        .setDescription('<:crossmark:1330976664535961753> `Error closing discussion. Please try again later.`');
+      message.channel.send({ embeds: [embed] });
     }
   }
 });
@@ -147,7 +150,10 @@ client.on('messageCreate', async message => {
       const args = message.content.match(/"([^"]*)"/g);
 
       if (args === null || args.length < 6) {
-        await message.channel.send('Invalid arguments. Please ensure all required arguments are provided.');
+        const embed = new EmbedBuilder()
+          .setColor('Red')
+          .setDescription('<:crossmark:1330976664535961753> `Invalid arguments. Please ensure all required arguments are provided.`');
+        await message.channel.send({ embeds: [embed] });
         return;
       }
 
@@ -163,7 +169,10 @@ client.on('messageCreate', async message => {
 
       const eventDate = new Date(dateString);
       if (isNaN(eventDate)) {
-        await message.channel.send('Invalid date format. Please use "Month Day, Year" format.');
+        const embed = new EmbedBuilder()
+          .setColor('Red')
+          .setDescription('<:crossmark:1330976664535961753> `Invalid date format. Please use "12:00 AM" format.`');
+        await message.channel.send({ embeds: [embed] });
         return;
       }
 
@@ -208,7 +217,10 @@ client.on('messageCreate', async message => {
 
     } catch (error) {
       console.error('Error sending discussion message:', error);
-      message.channel.send('Error sending discussion message. Please check your input and try again.');
+      const embed = new EmbedBuilder()
+          .setColor('Red')
+          .setDescription('<:crossmark:1330976664535961753> `Error sending discussion message.`');
+      message.channel.send({ embeds: [embed] });
     }
   }
 });
