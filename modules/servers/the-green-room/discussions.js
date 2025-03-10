@@ -60,7 +60,7 @@ client.on('messageCreate', async message => {
 
         const embedMessage = new EmbedBuilder()
           .setColor('#00FF00')
-          .setDescription('**<:check:1239354102467792947> Live Discussion Open!**');
+          .setDescription('<:checkmark:1330976666016550932> `Live Discussion Open!`');
 
         await channel.send({ embeds: [embedMessage] });
 
@@ -84,7 +84,11 @@ client.on('messageCreate', async message => {
       }
     } catch (error) {
       console.error('Error sending discussion message:', error);
-      message.channel.send('Error sending discussion message. Please check your input and try again.');
+      const embed = new EmbedBuilder()
+        .setColor('Red')
+        .setDescription('<:crossmark:1330976664535961753> `Error sending discussion message. Please check your input and try again.`');
+      // message.channel.send('Error sending discussion message. Please check your input and try again.');
+      channel.send({ embeds: [embed] });
     }
   }
 });
@@ -114,8 +118,8 @@ client.on('messageCreate', async message => {
       await message.delete();
 
       const closeEmbed = new EmbedBuilder()
-        .setColor('#FF0000')
-        .setDescription('**<:cross:1239354269057028126> Live Discussion Closed!**');
+        .setColor('Red')
+        .setDescription('<:crossmark:1330976664535961753> `Live Discussion Closed!`');
 
       await channel.send({ embeds: [closeEmbed] });
 
