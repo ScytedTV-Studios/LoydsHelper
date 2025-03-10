@@ -86,8 +86,7 @@ client.on('messageCreate', async message => {
       console.error('Error sending discussion message:', error);
       const embed = new EmbedBuilder()
         .setColor('Red')
-        .setDescription('<:crossmark:1330976664535961753> `Error sending discussion message. Please check your input and try again.`');
-      // message.channel.send('Error sending discussion message. Please check your input and try again.');
+        .setDescription('<:crossmark:1330976664535961753> `Error sending discussion message.`');
       message.channel.send({ embeds: [embed] });
     }
   }
