@@ -205,7 +205,6 @@ client.on('interactionCreate', async (interaction) => {
         );
 
         await message.edit({ embeds: [updatedEmbed], components: [buttons] });
-        // await interaction.reply({ content: 'Your introduction has been updated!', ephemeral: true });
         const embed = new EmbedBuilder()
             .setColor('Green')
             .setDescription('<:checkmark:1330976666016550932> `Your introduction has been updated.`');
