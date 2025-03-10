@@ -100,7 +100,6 @@ client.on('interactionCreate', async (interaction) => {
                 .setColor('Red')
                 .setDescription('<:crossmark:1330976664535961753> `You are not allowed to edit this introduction.`');
             return interaction.reply({ embeds: [embed], ephemeral: true});
-            // return interaction.reply({ content: 'You are not allowed to edit this introduction.', ephemeral: true });
         }
 
         const modal = new ModalBuilder()
@@ -206,7 +205,11 @@ client.on('interactionCreate', async (interaction) => {
         );
 
         await message.edit({ embeds: [updatedEmbed], components: [buttons] });
-        await interaction.reply({ content: 'Your introduction has been updated!', ephemeral: true });
+        // await interaction.reply({ content: 'Your introduction has been updated!', ephemeral: true });
+        const embed = new EmbedBuilder()
+            .setColor('Green')
+            .setDescription('<:checkmark:1330976666016550932> `Your introduction has been updated.`');
+        await interaction.reply({ embeds: [embed], ephemeral: true});
 
         intros[userID] = {
             messageID: message.id,
@@ -222,7 +225,6 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
-    console.log(client.user.id)
     if (client.user.id !== "1147308835808235581") return;
     if (oldMember.roles.cache.size === newMember.roles.cache.size) return;
 
