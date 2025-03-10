@@ -3,7 +3,7 @@ const ical = require('ical');
 require('dotenv').config();
 
 const icalUrl = 'https://calendar.google.com/calendar/ical/c13497d3db6136714b6c353eb6ef27354563e2a08def9326abd16507824ce4e2%40group.calendar.google.com/public/basic.ics';
-const apiUrl = 'https://api.scyted.tv/v1/parties/events';
+const apiUrl = 'https://api.scyted.tv/v1/parties/releases';
 const apiToken = process.env.SCYTEDTV_API;
 
 async function fetchAndProcessEvents() {
